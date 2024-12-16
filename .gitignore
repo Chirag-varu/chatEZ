@@ -1,0 +1,57 @@
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor/IDE-specific files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Cache directories
+.cache/
+vite.cache/
+coverage/
+*.log
+
+# Dependency directories
+/.pnp
+.pnp.js
+yarn.lock
+pnpm-lock.yaml
+
+# Favicon and public files (optional)
+public/assets/
+
+# React Native specific files
+*.hmap
+*.xcuserstate
+
+# Miscellaneous
+*.env.*
+*.pid
+*.seed
+
+# Backend-specific files
+package-lock.json
+yarn.lock
+mongo-data/
