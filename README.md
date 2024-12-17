@@ -35,8 +35,13 @@ Follow these steps to set up ChatEZ on your local machine:
    # OR
    yarn install
    ```
+4. Set up your `.env` file with:  
+   ```
+   PORT=5001
+   MONGODB_URI=your-mongodb-uri
+   ```
 
-4. **Start the Development Server** 🚀  
+5. **Start the Development Server** 🚀  
    Run the project locally:  
    ```bash
    npm run dev
