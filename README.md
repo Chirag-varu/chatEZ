@@ -39,6 +39,12 @@ Follow these steps to set up ChatEZ on your local machine:
    ```
    PORT=5001
    MONGODB_URI=your-mongodb-uri
+   SECRET_KEY = your_secret_key
+   HTTPS = false
+   
+   CLOUDNARY_CLOUD_NAME = your_cloud_name
+   CLOUDNARY_API_KEY = your_api_key
+   CLOUDNARY_API_SECRET = your_api_secret
    ```
 
 5. **Start the Development Server** 🚀  
