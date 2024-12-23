@@ -1,0 +1,32 @@
+import User from "../modules/user.module.js";
+import Message from "../modules/message.module.js";
+
+export const getUsers = async (req, res) => {
+    try {
+        const loggedInUser = req.user._id;
+        const filter = await User.find({ _id: { $ne: loggedInUser } }).select("-password");
+
+        res.status(200).json(filter);
+    } catch (err) {
+        console.log("Error In Get User: " + err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export const getMessage = async (req, res) => {
+    try {
+        const loggedInUser = req.user._id;
+        const receiverId = req.params.id;
+        const messages = await Message.find({
+            $or: [
+                { senderId: loggedInUser, receiverId: receiverId },
+                { senderId: receiverId, receiverId: loggedInUser },
+            ],
+        }).sort({ createdAt: 1 });
+
+        res.status(200).json(messages);
+    } catch (err) {
+        console.log("Error In Get Message: " + err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
