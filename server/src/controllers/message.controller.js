@@ -30,3 +30,32 @@ export const getMessage = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+export const sendMessage = async (req, res) => {
+    try {
+        const loggedInUser = req.user._id;
+        const receiverId = req.params.id;
+        const { text, image } = req.body;
+
+        let imageLink;
+        if (image) {
+            const link = await cloudinary.uploader.upload(image);
+            imageLink = link.secure_url;
+        }
+
+        const newMessage = new Message({
+            senderId: loggedInUser,
+            receiverId: receiverId,
+            message: text,
+            image: imageLink,
+        });
+
+        await newMessage.save();
+
+        res.status(201).json(newMessage);
+
+    } catch (err) {
+        console.log("Error In Send Message: " + err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
