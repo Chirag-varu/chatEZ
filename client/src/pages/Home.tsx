@@ -18,7 +18,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import logo from "../assets/favicon.png";
+import logo from "../assets/favicon_T.png";
 import chat_image from "../assets/login dark.jpg";
 import { motion } from "framer-motion";
 
@@ -126,7 +126,7 @@ function Home() {
                   src={logo}
                   alt="logo"
                   className={`h-10 ${
-                    darkMode ? "bg-gradient-to-r from-blue-500" : ""
+                    darkMode ? "filter brightness" : ""
                   }`}
                 />
                 <span
