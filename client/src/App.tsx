@@ -11,8 +11,12 @@ import Setting from "./pages/Setting";
 import VoiceCall from "./pages/VoiceCall";
 import VideoCall from "./pages/videoCall";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
+// import useAuthStore from './store/useAuthStore';
 
 function App() {
+  // const { authUser } = useAuthStore();
+
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -27,6 +31,7 @@ function App() {
             <Route path="/Setting" element={<Setting />} />
             <Route path="/Voice-call" element={<VoiceCall />} />
             <Route path="/video-call" element={<VideoCall />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
       </ThemeProvider>

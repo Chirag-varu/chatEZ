@@ -15,6 +15,7 @@ import {
   UserCog,
   Shield as ShieldIcon,
 } from "lucide-react";
+import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import chat_image from "../assets/login dark.jpg";
 import { motion } from "framer-motion";
 
@@ -38,7 +39,7 @@ function Home() {
     {
       icon: <Video size={24} />,
       title: "Video Calls",
-      description: "HD video calls with screen sharing",
+      description: "Seamless video calls without interruption",
     },
     {
       icon: <ImageIcon size={24} />,
@@ -88,12 +89,34 @@ function Home() {
     {
       icon: <UserCog size={24} />,
       title: "Admin Panel",
-      description: "Powerful admin controls",
+      description: "To monitor and manage users",
     },
     {
       icon: <ShieldIcon size={24} />,
       title: "User Verification",
       description: "Verified user badges",
+    },
+  ];
+
+  const words = [
+    {
+      text: "Chat",
+    },
+    {
+      text: "freely",
+    },
+    {
+      text: "and",
+    },
+    {
+      text: "securely",
+    },
+    {
+      text: "with",
+    },
+    {
+      text: "chatEZ.",
+      className: "text-blue-500 dark:text-blue-500",
     },
   ];
 
@@ -110,10 +133,10 @@ function Home() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex flex-col lg:flex-row items-center dark:bg-gradient-to-r dark:from-gray-900 dark:to-gray-700">
               {/* Text Section */}
               <div className="lg:w-1/2 text-center lg:text-left">
-                <h1 className="text-4xl sm:text-6xl font-extrabold dark:text-white text-gray-900">
-                  Connect Securely, Chat Freely
+                <h1 className="text-lg sm:text-6xl font-extrabold dark:text-white text-gray-900 text-center">
+                  <TypewriterEffectSmooth words={words} />
                 </h1>
-                <p className="mt-6 text-xl dark:text-gray-300 text-gray-600">
+                <p className="text-xl dark:text-gray-300 text-gray-600">
                   Experience the next generation of secure messaging with chatEZ
                 </p>
                 <p className="mt-1 text-xl dark:text-gray-300 text-gray-600">
@@ -149,7 +172,7 @@ function Home() {
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 rounded-xl dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:bg-gray-50 shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                  className="p-6 rounded-xl dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:bg-gray-50 shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <div className="inline-block p-3 rounded-lg dark:bg-gray-700 bg-blue-100">
                     <div className="dark:text-blue-400 text-blue-600">
@@ -191,8 +214,8 @@ function Home() {
         {/* Footer */}
         <footer className="dark:bg-gray-900 bg-gray-100 dark:text-gray-400 text-gray-600 py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>Made with ❤️ by Chirag Varu</p>
             <p>© 2024 chatEZ.</p>
+            <p>Made with ❤️ by Chirag Varu</p>
           </div>
         </footer>
       </div>
