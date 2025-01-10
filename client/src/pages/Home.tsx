@@ -18,6 +18,8 @@ import {
 import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import chat_image from "../assets/login dark.jpg";
 import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 function Home() {
   const features = [
@@ -153,7 +155,7 @@ function Home() {
               </div>
 
               {/* Image Section */}
-              <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end">
+              <div className="lg:w-1/2 mt-12 lg:mt-0 hidden sm:flex justify-center lg:justify-end">
                 <img
                   src={chat_image}
                   alt="Hero"
@@ -164,7 +166,7 @@ function Home() {
           </div>
 
           {/* Features Grid */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24">
             <h2 className="text-3xl font-bold text-center mb-16 dark:text-white text-gray-900">
               Powerful Features for Modern Communication
             </h2>
@@ -197,7 +199,7 @@ function Home() {
                 Ready to get started?
               </h2>
               <p className="mt-4 text-lg dark:text-gray-300 text-gray-600">
-                users trust ChatEZ for their communication needs
+                users trust chatEZ for their communication needs
               </p>
               <div className="mt-8">
                 <a
@@ -213,9 +215,34 @@ function Home() {
 
         {/* Footer */}
         <footer className="dark:bg-gray-900 bg-gray-100 dark:text-gray-400 text-gray-600 py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>© 2024 chatEZ.</p>
-            <p>Made with ❤️ by Chirag Varu</p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            {/* <p>Made with ❤️ by < Chirag Varu /></p> */}
+            <p>Made with ❤️ by <span className="text-blue-500">Chirag Varu</span></p>
+
+            <div className="flex space-x-6">
+              <a
+                href="https://github.com/Chirag-varu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+              >
+                <FaGithub size={24} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/chiragvaru03/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+              >
+                <FaLinkedin size={24} />
+              </a>
+              <a
+                href="mailto:chiragvaru03@gmail.com"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+              >
+                <MdEmail size={24} />
+              </a>
+            </div>
           </div>
         </footer>
       </div>

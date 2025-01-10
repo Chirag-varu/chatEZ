@@ -1,8 +1,8 @@
 
 const Profile = () => {
   return (
-    <div>
-      
+    <div className="flex justify-center items-center h-screen">
+      <h1>Hello</h1>
     </div>
   )
 }
