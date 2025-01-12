@@ -224,7 +224,7 @@ function Home() {
                 href="https://github.com/Chirag-varu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600 dark:hover:text-blue-600"
               >
                 <FaGithub size={24} />
               </a>
@@ -232,13 +232,13 @@ function Home() {
                 href="https://www.linkedin.com/in/chiragvaru03/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600 dark:hover:text-blue-600"
               >
                 <FaLinkedin size={24} />
               </a>
               <a
                 href="mailto:chiragvaru03@gmail.com"
-                className="dark:text-gray-400 text-gray-600 hover:text-blue-600"
+                className="dark:text-gray-400 text-gray-600 hover:text-blue-600 dark:hover:text-blue-600"
               >
                 <MdEmail size={24} />
               </a>

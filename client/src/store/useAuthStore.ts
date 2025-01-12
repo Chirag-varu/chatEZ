@@ -15,6 +15,7 @@ interface AuthUser {
 interface AuthStore {
   authUser: AuthUser | null;
   isSigningUp: boolean;
+  isVerify_OTP: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
@@ -22,7 +23,12 @@ interface AuthStore {
   socket: typeof Socket | null;
 
   checkAuth: () => Promise<void>;
-  signup: (data: { name: string; email: string; password: string }) => Promise<void>;
+  signup: (data: {
+    name: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  verify_otp: (data: { email: string; otp: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: { name: string; email: string }) => Promise<void>;
@@ -30,11 +36,12 @@ interface AuthStore {
   disconnectSocket: () => void;
 }
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+const BASE_URL = "http://localhost:5000";
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
   authUser: null,
   isSigningUp: false,
+  isVerify_OTP: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
@@ -47,7 +54,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       set({ authUser: res.data });
       get().connectSocket();
-    } catch (error) {
+    } catch (error: any) {
       console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
@@ -59,13 +66,27 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isSigningUp: true });
     try {
       const res = await axiosInstance.post("/auth/signup", data);
-      set({ authUser: res.data });
-      toast.success("Account created successfully");
+      console.log("auth user: ", res.data);
+      toast.success("OTP send successfully");
       get().connectSocket();
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  verify_otp: async (data: { email: string; otp: string }) => {
+    set({ isVerify_OTP: true });
+    try {
+      const res = await axiosInstance.post("/auth/verify-otp", data);
+      set({ authUser: res.data });
+      toast.success("OTP verified successfully");
+      get().connectSocket();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isVerify_OTP: false });
     }
   },
 
@@ -130,5 +151,4 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     const socket = get().socket;
     if (socket && socket.connected) socket.disconnect();
   },
-  
 }));

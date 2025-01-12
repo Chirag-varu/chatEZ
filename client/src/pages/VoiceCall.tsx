@@ -1,8 +1,8 @@
 
 const VoiceCall = () => {
   return (
-    <div>
-      
+    <div className="flex justify-center items-center h-screen">
+      <h1>VoiceCall Page</h1>
     </div>
   )
 }

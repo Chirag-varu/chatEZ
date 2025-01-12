@@ -1,8 +1,8 @@
 
 const Setting = () => {
   return (
-    <div>
-      
+    <div className="flex justify-center items-center h-screen">
+      <h1>Setting Page</h1>
     </div>
   )
 }

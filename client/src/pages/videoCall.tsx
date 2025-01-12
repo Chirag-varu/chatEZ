@@ -1,8 +1,8 @@
 
 const VideoCall = () => {
   return (
-    <div>
-      
+    <div className="flex justify-center items-center h-screen">
+      <h1>VideoCall Page</h1>
     </div>
   )
 }

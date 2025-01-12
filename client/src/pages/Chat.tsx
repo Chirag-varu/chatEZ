@@ -1,8 +1,8 @@
 
 const Chat = () => {
   return (
-    <div>
-      <h1>Chat app</h1>
+    <div className="flex justify-center items-center h-screen">
+      <h1>Chat Page</h1>
     </div>
   )
 }

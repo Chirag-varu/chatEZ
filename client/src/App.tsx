@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const location = useLocation();
@@ -40,8 +41,6 @@ function App() {
   const shouldHaveNavbar = showNavbarPaths.some((path) =>
     matchPath({ path, end: true }, location.pathname)
   );
-
-  console.log({ authUser });
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -67,6 +66,8 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      <Toaster />
     </ThemeProvider>
   );
 }
@@ -74,5 +75,7 @@ function App() {
 export default App;
 
 // TODO:
+// solve otp auto saved 
+// solve storing email in DB which is not currntly
 // make chat page
 // make log in and sign up page
