@@ -107,6 +107,8 @@ export const verifyOTP = async (req, res) => {
       name: otpStore[email].name,
       email,
       password: hashedPassword,
+      profilePic:
+        "https://imgs.search.brave.com/bitKFfksUGHS3vv5btnv4Dr3gcX0xh8rnof4HOIrIVw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pY29u/cy52ZXJ5aWNvbi5j/b20vcG5nLzEyOC9z/eXN0ZW0vc3VwZXIt/c3lzdGVtLWljb24v/dXNlci0xMTcucG5n",
     });
 
     await newUser.save();
