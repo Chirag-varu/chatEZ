@@ -41,7 +41,7 @@ const SignUpPage: React.FC = () => {
     if (success) {
       signup(formData);
       setIsModalOpen(true);
-      }
+    }
   };
 
   const handleOtpSubmit = async () => {
@@ -147,7 +147,7 @@ const SignUpPage: React.FC = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full dark:text-white" disabled={isSigningUp}>
+            <button type="submit" className="btn btn-primary font-bold w-full dark:text-white" disabled={isSigningUp}>
               {isSigningUp ? (
                 <>
                   <div className="flex justify-center items-center h-screen">
@@ -197,11 +197,14 @@ const SignUpPage: React.FC = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-[#9c231b] text-white rounded-lg hover:bg-[#502b28]"
+                type="button"
+                className="px-4 py-2 font-semibold bg-indigo-500 dark:from-blue-400 dark:to-indigo-600 text-white rounded-lg transform transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleOtpSubmit}
+                aria-label="Verify OTP"
               >
                 Verify OTP
               </button>
+
             </div>
           </div>
         </div>

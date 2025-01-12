@@ -23,7 +23,7 @@ const LogIn = () => {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors dark:bg-gray-800 dark:group-hover:bg-gray-700">
+              <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors dark:bg-gray-800 dark:group-hover:bg-gray-700 pointer-events-none">
                 <img src={logo} alt="chatEZ" />
               </div>
               <h1 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">Welcome Back</h1>
@@ -81,7 +81,7 @@ const LogIn = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full dark:text-white" disabled={isLoggingIn}>
+            <button type="submit" className="btn btn-primary font-bold w-full dark:text-white" disabled={isLoggingIn}>
               {isLoggingIn ? (
                 <>
                   <div className="flex justify-center items-center h-screen">

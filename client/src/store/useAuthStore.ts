@@ -9,6 +9,8 @@ interface AuthUser {
   _id: string;
   name: string;
   email: string;
+  profilePic?: string;
+  createdAt: string;
   // Add other fields that are part of the `authUser` object if needed
 }
 
@@ -31,7 +33,7 @@ interface AuthStore {
   verify_otp: (data: { email: string; otp: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
-  updateProfile: (data: { name: string; email: string }) => Promise<void>;
+  updateProfile: (data: { name: string; profilePic: string; }) => Promise<void>;
   connectSocket: () => void;
   disconnectSocket: () => void;
 }
@@ -51,7 +53,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error: any) {

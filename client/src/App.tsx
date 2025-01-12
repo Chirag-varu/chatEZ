@@ -24,6 +24,8 @@ function App() {
   const location = useLocation();
   const showNavbarPaths = [
     "/",
+    "/Sign-Up",
+    "/Log-In",
     "/chat",
     "/profile",
     "/setting",
@@ -75,7 +77,4 @@ function App() {
 export default App;
 
 // TODO:
-// solve otp auto saved 
-// solve storing email in DB which is not currntly
 // make chat page
-// make log in and sign up page

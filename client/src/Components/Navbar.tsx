@@ -31,7 +31,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <Link to="/" className="flex items-center">
+          <Link to="/chat" className="flex items-center">
             <img
               src={logo}
               alt="chatEZ logo"
@@ -48,8 +48,8 @@ const Navbar = () => {
             <button
               onClick={handleMode}
               className={`p-2 rounded-lg transition-transform transform hover:scale-105 ${darkMode
-                  ? "bg-gray-700 text-yellow-300 hover:bg-yellow-300 hover:text-gray-700"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-300 hover:text-gray-800"
+                ? "bg-gray-700 text-yellow-300 hover:bg-yellow-300 hover:text-gray-700"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-300 hover:text-gray-800"
                 }`}
             >
               {darkMode ? <Moon size={20} /> : <Sun size={20} />}
@@ -61,7 +61,7 @@ const Navbar = () => {
                   className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                 >
                   <User size={20} />
-                  <span className="hidden sm:inline">Profile</span>
+                  <span className="hidden sm:inline">{authUser.name}</span>
                 </Link>
                 <button
                   onClick={logout}

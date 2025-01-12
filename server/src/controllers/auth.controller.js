@@ -2,6 +2,7 @@ import { generateToken } from "../lib/utils.js";
 import User from "../modules/user.module.js";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+import cloudinary from "../lib/cloudinary.js";
 
 const otpStore = {};
 
@@ -189,28 +190,41 @@ export const deleteAcc = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { name, profilePic } = req.body;
+
     const userId = req.user._id;
 
-    if (!name || !profilePic) {
+    if (!name && !profilePic) {
       return res.status(200).json({ message: "Nothing Changed" });
     }
 
+    let updateData = {};
+
     if (name) {
       var updatedUser = await User.findByIdAndUpdate(userId, { name });
+      updateData.name = name;
     }
 
     if (profilePic) {
-      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      // Convert the blob URL to base64 before sending to Cloudinary
+      const base64Image = profilePic.split(",")[1];
+
+      const uploadResponse = await cloudinary.uploader.upload(
+        `data:image/jpeg;base64,${base64Image}`
+      );
+
+      updateData.profilePic = uploadResponse.secure_url;
+
       updatedUser = await User.findByIdAndUpdate(
         userId,
         { profilePic: uploadResponse.secure_url },
         { new: true }
       );
     }
+    console.log("updated profile: ", updatedUser);
 
     res.status(200).json(updatedUser);
   } catch (err) {
-    console.log("Error in updateProfile: " + err);
+    console.error("Error in updateProfile: " + err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
