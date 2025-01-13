@@ -1,15 +1,19 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { Camera, Mail, User, X, Edit2 } from "lucide-react";
+import { Camera, Mail, User, X, Edit2, Trash } from "lucide-react";
+import Modal from "../Components/Modal";
 import avatar from "../assets/avatar.png";
 
 const Profile = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  const { authUser, isUpdatingProfile, updateProfile, deleteProfile } = useAuthStore();
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [name, setName] = useState<string>(authUser?.name || "");
   const [isEditingName, setIsEditingName] = useState<boolean>(false);
   const [imageChanged, setImageChanged] = useState<boolean>(false);
   const [reload, setReload] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +60,16 @@ const Profile = () => {
     setName(authUser?.name || "");
     setImageChanged(false);
     setIsEditingName(false);
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsModalOpen(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    await deleteProfile({ email: authUser?.email || "" });
+    setIsModalOpen(false);
+    navigate("/");
   };
 
   return (
@@ -144,7 +158,12 @@ const Profile = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between py-2 border-b border-gray-700 dark:border-gray-50">
                 <span className="text-gray-500 dark:text-gray-400">Member Since</span>
-                <span>{authUser?.createdAt?.split("T")[0]}</span>
+                {authUser?.createdAt ? (
+                  <span>{authUser.createdAt.split("T")[0]}</span>
+                ) : (
+                  <span>Loading...</span>
+                )}
+
               </div>
               <div className="flex items-center justify-between py-2">
                 <span className="text-gray-500 dark:text-gray-400">Account Status</span>
@@ -154,7 +173,7 @@ const Profile = () => {
           </div>
 
           {/* Save or Cancel Button Section */}
-          {(imageChanged || name !== authUser?.name) && (
+          {(imageChanged || name !== authUser?.name) ? (
             <div className="flex justify-end gap-4 mt-6">
               <button
                 onClick={handleCancel}
@@ -169,7 +188,25 @@ const Profile = () => {
                 Save Profile
               </button>
             </div>
+          ) : (
+            <div className="flex justify-end gap-6 mt-6">
+              <button
+                onClick={handleDeleteAccount}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 flex items-center gap-2"
+              >
+                <Trash className="w-5 h-5" /> Delete Account
+              </button>
+            </div>
           )}
+
+          {/* Delete Account Modal */}
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onConfirm={confirmDeleteAccount}
+            title="Delete Account"
+            description="Are you sure you want to delete your account? This action cannot be undone."
+          />
         </div>
       </div>
     </div>

@@ -135,7 +135,7 @@ function Home() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex flex-col lg:flex-row items-center dark:bg-gradient-to-r dark:from-gray-900 dark:to-gray-700">
               {/* Text Section */}
               <div className="lg:w-1/2 text-center lg:text-left">
-                <h1 className="text-lg sm:text-6xl font-extrabold dark:text-white text-gray-900 text-center">
+                <h1 className="flex justify-center items-center text-lg sm:text-6xl font-extrabold dark:text-white text-gray-900 text-center">
                   <TypewriterEffectSmooth words={words} />
                 </h1>
                 <p className="text-xl dark:text-gray-300 text-gray-600">

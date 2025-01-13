@@ -50,7 +50,7 @@ const SignUpPage: React.FC = () => {
 
       const isVerified = await verify_otp({ email: formData.email, otp: trimmedOtp });
       setTimeout(() => { }, 3000);
-      console.log("Value of verify: ", isVerified);
+      console.log("Value of verify: ", isVerified, " status: ", isVerify_OTP);
 
       // if (isVerified == null ? false : true) {
       //   window.location.href = "/chat";
@@ -64,7 +64,7 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div className="min-h-screen grid dark:bg-gray-900">
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12 mt-6">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">

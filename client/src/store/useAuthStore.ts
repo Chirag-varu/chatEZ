@@ -20,6 +20,7 @@ interface AuthStore {
   isVerify_OTP: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
+  isDeletingProfile: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
   socket: typeof Socket | null;
@@ -33,7 +34,8 @@ interface AuthStore {
   verify_otp: (data: { email: string; otp: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
-  updateProfile: (data: { name: string; profilePic: string; }) => Promise<void>;
+  updateProfile: (data: { name: string; profilePic: string }) => Promise<void>;
+  deleteProfile: (data: { email: string }) => Promise<void>;
   connectSocket: () => void;
   disconnectSocket: () => void;
 }
@@ -46,6 +48,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isVerify_OTP: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
+  isDeletingProfile: false,
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
@@ -127,6 +130,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  deleteProfile: async (data) => {
+    set({ isDeletingProfile: true });
+    try {
+      const res = await axiosInstance.delete("/auth/delete-account", { data });
+      console.log(res);
+      toast.success("Profile deleted successfully");
+    } catch (error: any) {
+      console.error("Error in deleting profile: ", error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isDeletingProfile: false });
     }
   },
 
