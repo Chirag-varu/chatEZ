@@ -6,11 +6,18 @@ import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
 
+// app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -20,7 +27,11 @@ app.use(
   })
 );
 
-app.use("/api/user", userRoute)
+app.get("/healthcheck", (req, res) => {
+  res.status(200).send("Server is healthy");
+});
+
+app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/message", messageRoutes);
 

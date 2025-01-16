@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ const SignUpPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
+  const [timeLeft, setTimeLeft] = useState(300);
   const { signup, isSigningUp } = useAuthStore();
   const { verify_otp, isVerify_OTP } = useAuthStore();
 
@@ -61,6 +62,18 @@ const SignUpPage: React.FC = () => {
       setOtpError("Invalid OTP or OTP has expired");
     }
   };
+
+  useEffect(() => {
+    if (isModalOpen && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else if (timeLeft === 0) {
+      setIsModalOpen(false);
+    }
+  }, [isModalOpen, timeLeft]);
+
 
   return (
     <div className="min-h-screen grid dark:bg-gray-900">
@@ -177,6 +190,9 @@ const SignUpPage: React.FC = () => {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-80">
             <h3 className="text-lg font-semibold mb-4">Enter OTP</h3>
+            <p className="text-gray-500 text-center mb-4">
+              Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
+            </p>
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded-lg mb-4"
@@ -198,13 +214,12 @@ const SignUpPage: React.FC = () => {
               </button>
               <button
                 type="button"
-                className="px-4 py-2 font-semibold bg-indigo-500 dark:from-blue-400 dark:to-indigo-600 text-white rounded-lg transform transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 font-semibold bg-indigo-500 text-white rounded-lg transform transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleOtpSubmit}
                 aria-label="Verify OTP"
               >
                 Verify OTP
               </button>
-
             </div>
           </div>
         </div>

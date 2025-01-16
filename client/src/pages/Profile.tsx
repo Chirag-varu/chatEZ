@@ -150,6 +150,24 @@ const Profile = () => {
                 {authUser?.email}
               </p>
             </div>
+
+            <div className="space-y-1.5">
+              <div className="flex justify-between">
+                <div className="text-sm text-gray-400 dark:text-gray-300 flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Password
+                </div>
+                <button
+                  className="text-blue-500 hover:text-blue-700"
+                  onClick={() => setIsEditingName(!isEditingName)}
+                >
+                  change password
+                </button>
+              </div>
+              <p className="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
+                ********
+              </p>
+            </div>
           </div>
 
           {/* Account Information Section */}

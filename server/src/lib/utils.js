@@ -5,8 +5,6 @@ export const generateToken = (user, res) => {
     expiresIn: "7d",
   });
 
-  console.log("token: ", token);
-
   res.cookie("token", token, {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,

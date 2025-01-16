@@ -9,6 +9,7 @@ import ScrollToTop from "./Components/ScrollToTop";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import UpdatePassword from './pages/UpdatePassword'
 import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 import Setting from "./pages/Setting";
@@ -60,6 +61,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Sign-Up" element={!authUser ? <SignUp /> : <Navigate to="/chat" />} />
         <Route path="/Log-In" element={!authUser ? <LogIn /> : <Navigate to="/chat" />} />
+        <Route path="/Log-In/update-password" element={!authUser ? <UpdatePassword /> : <Navigate to="/chat" />} />
         <Route path="/chat" element={authUser ? <Chat /> : <Navigate to="/Log-In" />} />
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/Log-In" />} />
         <Route path="/setting" element={authUser ? <Setting /> : <Navigate to="/Log-In" />} />
@@ -77,5 +79,7 @@ function App() {
 export default App;
 
 // TODO:
-// make chat page
+// improve chat page
 // make admin authentication and login page
+// utils folder and make config file where all api route will be and base url will come from env file
+

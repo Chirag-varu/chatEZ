@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/favicon_T.png";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,11 +12,16 @@ const LogIn = () => {
     password: "",
   });
   const { login, isLoggingIn } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     login(formData);
   };
+
+  const handleUpdatePassword = () => {
+    navigate("./update-password");
+  }
 
   return (
     <div className="min-h-screen grid dark:bg-gray-900">
@@ -79,6 +85,10 @@ const LogIn = () => {
                   )}
                 </button>
               </div>
+            </div>
+
+            <div className="text-right">
+              <span className="text-blue-500 hover:text-blue-700 cursor-pointer transition-colors" onClick={handleUpdatePassword}>Forgot password?</span>
             </div>
 
             <button type="submit" className="btn btn-primary font-bold w-full dark:text-white" disabled={isLoggingIn}>

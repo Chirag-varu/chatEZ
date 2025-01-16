@@ -5,6 +5,7 @@ import { getUsers, getMessage, sendMessage } from "../controllers/message.contro
 const router = express.Router();
 
 router.get("/users", authenticate, getUsers);
+
 router.get("/:id", authenticate, getMessage);
 
 router.post("/send/:id", authenticate, sendMessage);

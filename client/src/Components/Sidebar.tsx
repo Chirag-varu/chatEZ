@@ -1,31 +1,74 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
+import { FiSearch } from "react-icons/fi";
 
 const Sidebar = () => {
     const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
     const { onlineUsers } = useAuthStore();
     const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     useEffect(() => {
         getUsers();
     }, [getUsers]);
 
-    const filteredUsers = showOnlineOnly
-        ? users.filter((user) => onlineUsers.includes(user._id))
-        : users;
+    const filteredUsers = users.filter((user) => {
+        const isOnline = showOnlineOnly ? onlineUsers.includes(user._id) : true;
+        const isNameMatch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return isOnline && isNameMatch;
+    });
 
     if (isUsersLoading) return <SidebarSkeleton />;
 
     return (
-        <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
+        <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 bg-white dark:bg-gray-900">
             <div className="border-b border-base-300 w-full p-5">
                 <div className="flex items-center gap-2">
-                    <Users className="size-6" />
-                    <span className="font-medium hidden lg:block">Contacts</span>
+                    <Users className="text-xl text-gray-800 dark:text-gray-300" />
+                    <span className="font-medium hidden lg:block text-gray-800 dark:text-gray-200">Contacts</span>
                 </div>
+
+                <div className="relative min-w-full sm:w-1/3 mt-3">
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Search name..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="w-full border px-4 py-2 pl-10 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300"
+                    />
+                    <FiSearch className="absolute left-3 top-2/4 transform -translate-y-2/4 text-gray-400 dark:text-gray-300" />
+                    <div className='absolute p-3 right-1 top-2/4 transform -translate-y-2/4 '>
+                        <kbd className="kbd kbd-sm m-2">ctrl</kbd>
+                        <kbd className="kbd kbd-sm">K</kbd>
+                    </div>
+                </div>
+
 
                 <div className="mt-3 hidden lg:flex items-center gap-2">
                     <label className="cursor-pointer flex items-center gap-2">
@@ -33,9 +76,9 @@ const Sidebar = () => {
                             type="checkbox"
                             checked={showOnlineOnly}
                             onChange={(e) => setShowOnlineOnly(e.target.checked)}
-                            className="checkbox checkbox-sm"
+                            className="checkbox checkbox-sm dark:border dark:border-gray-500 transition-colors"
                         />
-                        <span className="text-sm">Show online only</span>
+                        <span className="text-sm text-gray-800 dark:text-gray-200">Show online only</span>
                     </label>
                     <span className="text-xs text-zinc-500">
                         ({onlineUsers.length - 1} online)
@@ -48,23 +91,23 @@ const Sidebar = () => {
                     <button
                         key={user._id}
                         onClick={() => setSelectedUser(user)}
-                        className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""
+                        className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 dark:hover:bg-gray-700 transition-all rounded-lg ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300 dark:bg-gray-700 dark:ring-gray-500" : ""
                             }`}
                     >
-                        <div className="relative mx-auto lg:mx-0">
+                        <div className="relative mx-auto lg:mx-0 border-spacing-2 border-slate-800">
                             <img
                                 src={user.profilePic || "/avatar.png"}
                                 alt={user.name}
-                                className="size-12 object-cover rounded-full"
+                                className="size-12 object-cover rounded-full dark:border dark:border-gray-500 transition-transform transform hover:scale-105"
                             />
                             {onlineUsers.includes(user._id) && (
-                                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
+                                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full" />
                             )}
                         </div>
 
                         <div className="hidden lg:block text-left min-w-0">
-                            <div className="font-medium truncate">{user.name}</div>
-                            <div className="text-sm text-zinc-400">
+                            <div className="font-medium truncate text-gray-800 dark:text-gray-200">{user.name}</div>
+                            <div className="text-sm text-zinc-400 dark:text-zinc-500">
                                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
                             </div>
                         </div>

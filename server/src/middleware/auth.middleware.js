@@ -9,13 +9,14 @@ export const authenticate = async (req, res, next) => {
             return res.status(401).json({ message: 'Unauthorized - NO Token Provided' });
         }
 
-        const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);        
+        const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);            
 
         if (!decoded_token) {
             return res.status(401).json({ message: 'Unauthorized - Invalid Token' });
         }
 
-        const user = await User.findById(decoded_token.id).select("-password");
+        const user = await User.findById(decoded_token.id);
+        // const user = await User.findById(decoded_token.id).select("-password"); // most used (good practice)
 
         if (!user) {
             return res.status(401).json({ message: 'Unauthorized - User Not Found' });

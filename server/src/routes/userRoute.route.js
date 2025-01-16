@@ -1,9 +1,9 @@
 import express from "express";
 import { getAllUsers } from "../controllers/getAllUsers.controller.js";
-// import { authenticateAdmin } from "../middleware/auth.middleware";
+import { authenticate } from "../middleware/auth.middleware.js";
 
 const route = express.Router();
 
-route.get("/getAllUsers", getAllUsers);
+route.get("/getAllUsers", authenticate, getAllUsers);
 
 export default route;
