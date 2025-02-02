@@ -15,9 +15,9 @@ const Admin = () => {
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === 'k') {
-      e.preventDefault(); 
+      e.preventDefault();
       if (inputRef.current) {
-        inputRef.current.focus(); 
+        inputRef.current.focus();
       }
     }
   };
@@ -43,13 +43,13 @@ const Admin = () => {
   });
 
   return (
-    <div className="min-h-screen pt-24 px-4 sm:px-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen pt-28 px-4 sm:px-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl sm:text-3xl font-semibold mb-8 text-center text-gray-900 dark:text-gray-100">
         Admin Dashboard
       </h1>
 
       <div className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div className="relative w-full sm:w-1/3">
+        <div className="relative w-full sm:w-1/3 border rounded-lg border-gray-400">
           <input
             ref={inputRef}
             type="text"
@@ -73,13 +73,13 @@ const Admin = () => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="border px-4 py-2 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-100"
+              className="border px-4 py-2 rounded-lg border-gray-400 bg-white dark:bg-gray-800 dark:text-gray-100"
             />
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="border px-4 py-2 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-100"
+              className="border px-4 py-2 rounded-lg border-gray-400 bg-white dark:bg-gray-800 dark:text-gray-100"
             />
           </div>
         </div>
@@ -92,26 +92,30 @@ const Admin = () => {
           <table className="min-w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-blue-600 dark:bg-blue-800 text-white">
-                <th className="py-3 px-6 text-left text-sm font-semibold">Profile Picture</th>
-                <th className="py-3 px-6 text-left text-sm font-semibold">Name</th>
-                <th className="py-3 px-6 text-left text-sm font-semibold">Email</th>
-                <th className="py-3 px-6 text-left text-sm font-semibold">Joined Date</th>
+                <th className="py-3 px-6 text-center text-sm font-semibold">Profile Picture</th>
+                <th className="py-3 px-6 text-center text-sm font-semibold">Name</th>
+                <th className="py-3 px-6 text-center text-sm font-semibold">Email</th>
+                <th className="py-3 px-6 text-center text-sm font-semibold">Joined Date</th>
               </tr>
             </thead>
             <tbody>
               {filteredUsers.length > 0 ? (
                 filteredUsers.map((user) => (
                   <tr key={user._id} className="border-b dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors">
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 text-center">
                       <img
                         src={user.profilePic}
                         alt={user.name}
-                        className="w-12 h-12 rounded-full border-2 border-gray-300 dark:border-gray-600 shadow-md hover:scale-105 transition-transform"
+                        className="w-12 h-12 mx-auto rounded-full border-2 border-gray-300 dark:border-gray-600 shadow-md hover:scale-105 transition-transform"
                       />
                     </td>
-                    <td className="py-4 px-6 text-gray-900 dark:text-gray-100 text-sm font-medium">{user.name}</td>
-                    <td className="py-4 px-6 text-gray-900 dark:text-gray-100 text-sm font-medium">{user.email}</td>
-                    <td className="py-4 px-6 text-gray-900 dark:text-gray-100 text-sm font-medium">
+                    <td className="py-4 px-6 text-center text-gray-900 dark:text-gray-100 text-sm font-medium">
+                      {user.name}
+                    </td>
+                    <td className="py-4 px-6 text-center text-gray-900 dark:text-gray-100 text-sm font-medium">
+                      {user.email}
+                    </td>
+                    <td className="py-4 px-6 text-center text-gray-900 dark:text-gray-100 text-sm font-medium">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import io, { type Socket } from "socket.io-client";
+import { log } from "console";
 // import io from "socket.io-client";
 
 // Define the types for the state
@@ -33,6 +34,7 @@ interface AuthStore {
   }) => Promise<void>;
   verify_otp: (data: { email: string; otp: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
+  adminLogin: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: { name: string; profilePic: string }) => Promise<void>;
   deleteProfile: (data: { email: string }) => Promise<void>;
@@ -99,6 +101,22 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
+      toast.success("Logged in successfully");
+      get().connectSocket();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+
+  adminLogin: async (data) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/adminLogin", data);
+      set({ authUser: res.data });
+      console.log(res.data);
+      console.log(get().authUser);
       toast.success("Logged in successfully");
       get().connectSocket();
     } catch (error: any) {

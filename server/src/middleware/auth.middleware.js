@@ -1,32 +1,33 @@
-import jwt from 'jsonwebtoken';
-import User from '../modules/user.module.js';
+import jwt from "jsonwebtoken";
+import User from "../modules/user.module.js";
+import Admin from "../modules/admin.module.js";
 
 export const authenticate = async (req, res, next) => {
-    try {
-        const jwt_token = req.cookies.token;        
+  try {
+    const jwt_token = req.cookies.token;
 
-        if (!jwt_token) {
-            return res.status(401).json({ message: 'Unauthorized - NO Token Provided' });
-        }
-
-        const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);            
-
-        if (!decoded_token) {
-            return res.status(401).json({ message: 'Unauthorized - Invalid Token' });
-        }
-
-        const user = await User.findById(decoded_token.id);
-        // const user = await User.findById(decoded_token.id).select("-password"); // most used (good practice)
-
-        if (!user) {
-            return res.status(401).json({ message: 'Unauthorized - User Not Found' });
-        }
-
-        req.user = user;
-        next();
-
-    } catch (err) {
-        console.log("Error on authentication: " + err);
-        res.status(500).json({ message: "Internal server error" });
+    if (!jwt_token) {
+      return res.status(401).json({ message: "Unauthorized - No Token Provided" });
     }
-}
+
+    const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);
+
+    const user = await User.findById(decoded_token.id);
+    if (user) {
+      req.user = user;
+      return next();
+    }
+
+    const admin = await Admin.findById(decoded_token.id);
+    if (admin) {
+      req.admin = admin;
+      return next();
+    }
+
+    return res.status(401).json({ message: "Unauthorized - User Not Found" });
+
+  } catch (err) {
+    console.error("Error on authentication:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

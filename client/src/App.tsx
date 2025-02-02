@@ -17,6 +17,7 @@ import VoiceCall from "./pages/VoiceCall";
 import VideoCall from "./pages/videoCall";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import AdminLogin from "./pages/AdminLogin";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
@@ -34,11 +35,15 @@ function App() {
     "/voice-call",
     "/video-call",
     "/admin",
+    "/admin-login",
   ];
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser,  checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
+    console.log('====================================');
+    console.log(authUser);
+    console.log('====================================');
   }, [checkAuth]);
 
   const shouldHaveNavbar = showNavbarPaths.some((path) =>
@@ -67,7 +72,8 @@ function App() {
         <Route path="/setting" element={authUser ? <Setting /> : <Navigate to="/Log-In" />} />
         <Route path="/voice-call" element={authUser ? <VoiceCall /> : <Navigate to="/Log-In" />} />
         <Route path="/video-call" element={authUser ? <VideoCall /> : <Navigate to="/Log-In" />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={authUser ? <Admin /> : <Navigate to="/admin-login"/>} />
+        <Route path="/admin-login" element={!authUser ? <AdminLogin /> : <Navigate to="/admin"/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

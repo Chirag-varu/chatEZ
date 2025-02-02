@@ -1,4 +1,5 @@
 import { generateToken } from "../lib/utils.js";
+import Admin from "../modules/admin.module.js";
 import User from "../modules/user.module.js";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
@@ -155,6 +156,35 @@ export const login = async (req, res) => {
       name: user.name,
       email: user.email,
       profilePic: user.profilePic,
+    });
+  } catch (err) {
+    console.error("Error in login: ", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const admin = await Admin.findOne({ email });
+
+    if (!admin) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    if (password !== admin.password) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    generateToken(admin._id, res);
+
+    return res.status(200).json({
+      _id: admin._id,
+      email: admin.email,
     });
   } catch (err) {
     console.error("Error in login: ", err);

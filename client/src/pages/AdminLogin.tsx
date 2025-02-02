@@ -3,25 +3,20 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/favicon_T.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-const LogIn = () => {
+const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const { login, isLoggingIn } = useAuthStore();
-  const navigate = useNavigate();
+  const { adminLogin, isLoggingIn } = useAuthStore();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    login(formData);
+    adminLogin(formData);
   };
-
-  const handleUpdatePassword = () => {
-    navigate("./update-password");
-  }
 
   return (
     <div className="min-h-screen grid dark:bg-gray-900">
@@ -30,10 +25,10 @@ const LogIn = () => {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors dark:bg-gray-800 dark:group-hover:bg-gray-700 pointer-events-none">
-                <img src={logo} alt="chatEZ" />
+                <img src={logo} alt="Admin Dashboard" />
               </div>
-              <h1 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">Welcome Back</h1>
-              <p className="text-base-content/60 dark:text-gray-400">Sign in to your account</p>
+              <h1 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">Admin Login</h1>
+              <p className="text-base-content/60 dark:text-gray-400">Sign in to your dashboard</p>
             </div>
           </div>
 
@@ -49,7 +44,7 @@ const LogIn = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                  placeholder="johnDoe@gmail.com"
+                  placeholder="admin@gmail.com"
                   value={formData.email}
                   autoComplete="email"
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -68,7 +63,7 @@ const LogIn = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="input input-bordered w-full pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                  placeholder="••••••••"
+                  placeholder="admin444"
                   value={formData.password}
                   autoComplete="current-password"
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -87,10 +82,6 @@ const LogIn = () => {
               </div>
             </div>
 
-            <div className="text-right">
-              <span className="text-blue-500 hover:text-blue-700 cursor-pointer transition-colors" onClick={handleUpdatePassword}>Forgot password?</span>
-            </div>
-
             <button type="submit" className="btn btn-primary font-bold w-full dark:text-white" disabled={isLoggingIn}>
               {isLoggingIn ? (
                 <>
@@ -107,10 +98,7 @@ const LogIn = () => {
 
           <div className="text-center">
             <p className="text-base-content/60 dark:text-gray-400">
-              Don&apos;t have an account?{" "}
-              <Link to="/Sign-Up" className="link link-primary dark:text-blue-400">
-                Create account
-              </Link>
+              Not an admin? <Link to="/Log-In" className="link link-primary dark:text-blue-400">User Login</Link>
             </p>
           </div>
         </div>
@@ -119,4 +107,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default AdminLogin;
