@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import io, { type Socket } from "socket.io-client";
-import { log } from "console";
 // import io from "socket.io-client";
 
 // Define the types for the state
@@ -21,6 +20,7 @@ interface AuthStore {
   isVerify_OTP: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
+  isUpdatingPassword: boolean;
   isDeletingProfile: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
@@ -32,11 +32,14 @@ interface AuthStore {
     email: string;
     password: string;
   }) => Promise<void>;
-  verify_otp: (data: { email: string; otp: string }) => Promise<void>;
+  sendOTP: (data: { email: string }) => Promise<void>;
+  verify_otp: (data: { email: string; otp: string }) => Promise<boolean>;
+  verify_otp2: (data: { email: string; otp: string }) => Promise<boolean>;
   login: (data: { email: string; password: string }) => Promise<void>;
   adminLogin: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: { name: string; profilePic: string }) => Promise<void>;
+  updatePassword: (data: { email: string; password: string }) => Promise<boolean>;
   deleteProfile: (data: { email: string }) => Promise<void>;
   connectSocket: () => void;
   disconnectSocket: () => void;
@@ -50,6 +53,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isVerify_OTP: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
+  isUpdatingPassword: false,
   isDeletingProfile: false,
   isCheckingAuth: true,
   onlineUsers: [],
@@ -82,15 +86,46 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  sendOTP: async (data) => {
+    set({ isVerify_OTP: true });
+    try {
+      const res = await axiosInstance.post("/auth/sendOTP", data);
+      console.log(res.data);
+      toast.success("OTP verified successfully");
+      get().connectSocket();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isVerify_OTP: false });
+    }
+  },
+
   verify_otp: async (data: { email: string; otp: string }) => {
     set({ isVerify_OTP: true });
     try {
       const res = await axiosInstance.post("/auth/verify-otp", data);
       set({ authUser: res.data });
       toast.success("OTP verified successfully");
+      return true;
       get().connectSocket();
     } catch (error: any) {
       toast.error(error.response.data.message);
+      return false;
+    } finally {
+      set({ isVerify_OTP: false });
+    }
+  },
+
+  verify_otp2: async (data: { email: string; otp: string }) => {
+    set({ isVerify_OTP: true });
+    try {
+      const res = await axiosInstance.post("/auth/verify-otp2", data);
+      console.log(res);
+      toast.success("OTP verified successfully");
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
     } finally {
       set({ isVerify_OTP: false });
     }
@@ -115,10 +150,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/adminLogin", data);
       set({ authUser: res.data });
-      console.log(res.data);
-      console.log(get().authUser);
       toast.success("Logged in successfully");
-      get().connectSocket();
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
@@ -148,6 +180,22 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  updatePassword: async (data) => {
+    set({ isUpdatingPassword: true });
+    try {
+      const res = await axiosInstance.put("/auth/update-password", data);
+      console.log(res);
+      toast.success("Password updated successfully");
+      return true;
+    } catch (error: any) {
+      console.log("error in update password:", error);
+      toast.error(error.response.data.message);
+      return false;
+    } finally {
+      set({ isUpdatingPassword: false });
     }
   },
 

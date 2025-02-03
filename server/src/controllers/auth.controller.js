@@ -18,19 +18,54 @@ export const sendOTP = async (email) => {
       user: process.env.EMAIL_ID,
       pass: process.env.EMAIL_PASSWORD,
     },
+    tls: {
+      rejectUnauthorized: false, // Allow self-signed certificates
+    },
   });
-
-  console.log("username: ", transporter);
-  console.log("email: ", email);
 
   const verificationMail = {
     from: "chatEZ Email Verification Bot",
     to: email,
     subject: "chatEZ - Email Verification (Valid for 5 minutes)",
-    text: `The OTP for registration is ${otp}. It is only valid for 5 minutes.`,
+    text: `The OTP for registration is ${otp}. 
+    It is only valid for 5 minutes.`,
   };
 
-  console.log(verificationMail);
+  try {
+    await transporter.sendMail(verificationMail);
+  } catch (error) {
+    console.log("Error sending email:", error.message);
+    throw new Error("Failed to send OTP");
+  }
+
+  return otp;
+};
+
+export const sendOTP2 = async (email) => {
+  console.log("Sending OTP to: ", email.body.email);
+
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const expiresAt = Date.now() + 5 * 60 * 1000;
+  otpStore[email.body.email] = { otp, expiresAt };
+
+  const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.EMAIL_ID,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false, // Allow self-signed certificates
+    },
+  });
+
+  const verificationMail = {
+    from: "chatEZ Email Verification Bot",
+    to: email.body.email,
+    subject: "chatEZ - Email Verification (Valid for 5 minutes)",
+    text: `The OTP for updating password is ${otp}. 
+It is only valid for 5 minutes.`,
+  };
 
   try {
     await transporter.sendMail(verificationMail);
@@ -125,7 +160,35 @@ export const verifyOTP = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log("Error in student verifyOTP: ", error);
+    console.log("Error in verifyOTP: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const verifyOTP2 = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    if (!otpStore[email]) {
+      return res.status(400).json({ message: "OTP has expired or is invalid" });
+    }
+
+    const { otp: storedOTP, expiresAt, hashedPassword, name } = otpStore[email];
+    if (Date.now() > expiresAt) {
+      delete otpStore[email];
+      return res.status(400).json({ message: "OTP has expired" });
+    }
+
+    if (parseInt(otp) != storedOTP) {
+      return res
+        .status(400)
+        .json({ message: "Invalid OTP. Please try again!" });
+    }
+    delete otpStore[email];
+
+    return res.status(200).json({ message: "OTP verified successfully." });
+  } catch (error) {
+    console.log("Error in verifyOTP2: ", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -257,6 +320,44 @@ export const updateProfile = async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (err) {
     console.error("Error in updateProfile: " + err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters long" });
+    }
+
+    const existingUser = await User.findOne({ email }).select("+password");
+    if (!existingUser) {
+      return res
+        .status(400)
+        .json({ message: "No account associated with this email" });
+    }
+
+    const isValidPassword = await bcrypt.compare(password, existingUser.password);
+    if (isValidPassword) {
+      return res.status(400).json({ message: "Choose a new password that is not the same as your old one." });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    existingUser.password = await bcrypt.hash(password, salt);
+
+    await existingUser.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Error in update password:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };

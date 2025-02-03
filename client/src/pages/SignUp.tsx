@@ -22,8 +22,8 @@ const SignUpPage: React.FC = () => {
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
   const [timeLeft, setTimeLeft] = useState(300);
-  const { signup, isSigningUp } = useAuthStore();
   const { verify_otp, isVerify_OTP } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = (): boolean => {
     if (!formData.name.trim()) return toast.error("Full name is required"), false;
@@ -51,13 +51,13 @@ const SignUpPage: React.FC = () => {
 
       const isVerified = await verify_otp({ email: formData.email, otp: trimmedOtp });
       setTimeout(() => { }, 3000);
-      console.log("Value of verify: ", isVerified, " status: ", isVerify_OTP);
+      console.log("Is Verify OTP: " + isVerify_OTP);
 
-      // if (isVerified == null ? false : true) {
-      //   window.location.href = "/chat";
-      // } else {
-      //   setOtpError("Invalid OTP or OTP has expired");
-      // }
+      if (isVerified == null ? false : true) {
+        window.location.href = "/chat";
+      } else {
+        setOtpError("Invalid OTP or OTP has expired");
+      }
     } catch (error: any) {
       setOtpError("Invalid OTP or OTP has expired");
     }
@@ -122,7 +122,7 @@ const SignUpPage: React.FC = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                  placeholder="johnDoe@example.com"
+                  placeholder="johnDoe@gmail.com"
                   value={formData.email}
                   autoComplete="email"
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -190,9 +190,6 @@ const SignUpPage: React.FC = () => {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-80">
             <h3 className="text-lg font-semibold mb-4">Enter OTP</h3>
-            <p className="text-gray-500 text-center mb-4">
-              Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
-            </p>
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded-lg mb-4"
@@ -205,6 +202,9 @@ const SignUpPage: React.FC = () => {
                 {otpError}
               </p>
             )}
+            <p className="text-gray-500 text-center mb-4">
+              Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
+            </p>
             <div className="flex justify-between">
               <button
                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"

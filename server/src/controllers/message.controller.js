@@ -1,5 +1,6 @@
 import User from "../modules/user.module.js";
 import Message from "../modules/message.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const getUsers = async (req, res) => {
     try {
@@ -35,7 +36,7 @@ export const sendMessage = async (req, res) => {
     try {
         const loggedInUser = req.user._id;
         const receiverId = req.params.id;
-        const { text, image } = req.body;
+        const { content, image } = req.body;        
 
         let imageLink;
         if (image) {
@@ -46,7 +47,7 @@ export const sendMessage = async (req, res) => {
         const newMessage = new Message({
             senderId: loggedInUser,
             receiverId: receiverId,
-            message: text,
+            text: content,
             image: imageLink,
         });
 

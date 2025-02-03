@@ -28,6 +28,7 @@ function App() {
     "/",
     "/Sign-Up",
     "/Log-In",
+    "/Log-In/update-password",
     "/chat",
     "/profile",
     "/setting",
@@ -37,13 +38,10 @@ function App() {
     "/admin",
     "/admin-login",
   ];
-  const { authUser,  checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
-    console.log('====================================');
-    console.log(authUser);
-    console.log('====================================');
   }, [checkAuth]);
 
   const shouldHaveNavbar = showNavbarPaths.some((path) =>
@@ -66,14 +64,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Sign-Up" element={!authUser ? <SignUp /> : <Navigate to="/chat" />} />
         <Route path="/Log-In" element={!authUser ? <LogIn /> : <Navigate to="/chat" />} />
-        <Route path="/Log-In/update-password" element={!authUser ? <UpdatePassword /> : <Navigate to="/chat" />} />
+        <Route path="/Log-In/update-password" element={<UpdatePassword />} />
         <Route path="/chat" element={authUser ? <Chat /> : <Navigate to="/Log-In" />} />
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/Log-In" />} />
         <Route path="/setting" element={authUser ? <Setting /> : <Navigate to="/Log-In" />} />
         <Route path="/voice-call" element={authUser ? <VoiceCall /> : <Navigate to="/Log-In" />} />
         <Route path="/video-call" element={authUser ? <VideoCall /> : <Navigate to="/Log-In" />} />
-        <Route path="/admin" element={authUser ? <Admin /> : <Navigate to="/admin-login"/>} />
-        <Route path="/admin-login" element={!authUser ? <AdminLogin /> : <Navigate to="/admin"/>} />
+        <Route path="/admin" element={authUser ? <Admin /> : <Navigate to="/admin-login" />} />
+        <Route path="/admin-login" element={!authUser ? <AdminLogin /> : <Navigate to="/admin" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -86,6 +84,8 @@ export default App;
 
 // TODO:
 // improve chat page
-// make admin authentication and login page
+// make message encryption and decryption for security
 // utils folder and make config file where all api route will be and base url will come from env file
+// should make adminAuth for protecting admin route
+// sendOTP route is open mean attracter can attac from post-man so need to add some security
 
