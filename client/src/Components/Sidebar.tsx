@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { Users } from "lucide-react";
+import { FiMoreVertical } from "react-icons/fi";
+// import { Users } from "lucide-react";
 import { FiSearch } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -47,30 +48,40 @@ const Sidebar = () => {
 
     return (
         <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 bg-white dark:bg-gray-900">
-            <div className="border-b border-base-300 w-full p-5">
-                <div className="flex items-center gap-2">
-                    <Users className="text-xl text-gray-800 dark:text-gray-300" />
-                    <span className="font-medium hidden lg:block text-gray-800 dark:text-gray-200">Contacts</span>
+            <div className="border-b border-base-300 w-full p-4 md:p-5 flex flex-col items-center">
+
+                {/* Header */}
+                <div className="w-full flex items-center justify-between">
+                    <span className="font-medium text-gray-800 dark:text-gray-200">chatEZ</span>
+                    <FiMoreVertical className="text-gray-800 dark:text-gray-200 text-lg" />
                 </div>
 
-                <div className="relative min-w-full sm:w-1/3 mt-3">
+                {/* Search Input */}
+                <div className="relative min-w-full sm:w-2/3 md:w-1/3 mt-3">
                     <input
                         ref={inputRef}
                         type="text"
                         placeholder="Search name..."
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className="w-full border px-4 py-2 pl-10 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300"
+                        className="w-full border border-gray-300 px-4 py-2 pl-10 rounded-lg focus:border-blue-500 bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 
+        focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300
+        text-sm sm:text-base"
                     />
-                    <FiSearch className="absolute left-3 top-2/4 transform -translate-y-2/4 text-gray-400 dark:text-gray-300" />
-                    <div className='absolute p-3 right-1 top-2/4 transform -translate-y-2/4 '>
-                        <kbd className="kbd kbd-sm m-2">ctrl</kbd>
+
+                    {/* Search Icon */}
+                    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 text-base sm:text-lg" />
+
+                    {/* Shortcut Keys (Hidden on very small screens) */}
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 items-center gap-1 hidden md:flex">
+                        <kbd className="kbd kbd-sm">Ctrl</kbd>
                         <kbd className="kbd kbd-sm">K</kbd>
                     </div>
                 </div>
 
 
-                <div className="mt-3 hidden lg:flex items-center gap-2">
+                {/* Online Users (Hidden on Small Screens) */}
+                <div className="mt-3 hidden md:flex items-center gap-2">
                     <label className="cursor-pointer flex items-center gap-2">
                         <input
                             type="checkbox"
@@ -85,6 +96,7 @@ const Sidebar = () => {
                     </span>
                 </div>
             </div>
+
 
             <div className="overflow-y-auto w-full py-3">
                 {filteredUsers.map((user) => (

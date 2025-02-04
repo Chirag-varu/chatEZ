@@ -7,9 +7,10 @@ import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import { app, server } from "./lib/socket.js";
 
 dotenv.config();
-const app = express();
+// const app = express();
 const PORT = process.env.PORT;
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -36,7 +37,7 @@ app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/message", messageRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on PORT - ${PORT}`);
   connectDB();
 });

@@ -10,7 +10,7 @@ export const authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized - No Token Provided" });
     }
 
-    const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);
+    const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);    
 
     const user = await User.findById(decoded_token.id);
     if (user) {

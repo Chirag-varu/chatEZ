@@ -60,7 +60,7 @@ const MessageInput = () => {
                         <button
                             onClick={removeImage}
                             className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
-              flex items-center justify-center"
+              flex items-center justify-center dark:text-black"
                             type="button"
                         >
                             <X className="size-3" />
@@ -73,7 +73,8 @@ const MessageInput = () => {
                 <div className="flex-1 flex gap-2">
                     <input
                         type="text"
-                        className="w-full input input-bordered border border-gray-400 rounded-lg input-sm sm:input-md"
+                        className="w-full input input-bordered border border-gray-400 dark:border-gray-600 rounded-lg input-sm sm:input-md 
+        bg-white text-black dark:bg-zinc-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                         placeholder="Type a message..."
                         value={text}
                         onChange={(e) => setText(e.target.value)}
@@ -88,8 +89,8 @@ const MessageInput = () => {
 
                     <button
                         type="button"
-                        className={`hidden sm:flex border border-gray-400 btn btn-circle
-                     ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
+                        className={`hidden sm:flex border border-gray-400 dark:border-gray-600 btn btn-circle 
+        ${imagePreview ? "text-emerald-500" : "text-zinc-400 dark:text-zinc-500"}`}
                         onClick={() => fileInputRef.current?.click()}
                     >
                         <Image size={20} />
@@ -97,11 +98,12 @@ const MessageInput = () => {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-sm btn-circle border border-gray-400 rounded-full flex items-center justify-center w-10 h-10"
+                    className="btn btn-sm btn-circle border border-gray-400 dark:border-gray-600 rounded-full flex items-center justify-center w-10 h-10
+      bg-white dark:bg-zinc-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-zinc-700"
                     disabled={!text.trim() && !imagePreview}
                 >
                     <Send size={22} />
-                </button>   
+                </button>
             </form>
         </div>
     );

@@ -38,7 +38,8 @@ function App() {
     "/admin",
     "/admin-login",
   ];
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  console.log("online users:", onlineUsers);  
 
   useEffect(() => {
     checkAuth();
