@@ -84,6 +84,8 @@ function App() {
 export default App;
 
 // TODO:
+// delete message one, many and all
+// delete user from admin panel
 // improve chat page
 // make message encryption and decryption for security
 // utils folder and make config file where all api route will be and base url will come from env file

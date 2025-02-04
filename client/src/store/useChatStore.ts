@@ -2,6 +2,9 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
+import CryptoJS from "crypto-js";
+
+const SECRET_KEY = import.meta.env.VITE_MESSAGE_SECRET_KEY;
 
 interface Message {
   _id: string;
@@ -29,11 +32,20 @@ interface ChatStore {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
-  sendMessage: (message: { content: string; image?: string | ArrayBuffer | null }) => Promise<void>;
+  sendMessage: (message: {
+    content: string;
+    image?: string | ArrayBuffer | null;
+  }) => Promise<void>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | null) => void;
 }
+
+const decryptMessage = (cipherText: string) => {
+  const bytes = CryptoJS.AES.decrypt(cipherText, SECRET_KEY);
+  const message = bytes.toString(CryptoJS.enc.Utf8);
+  return message;
+};
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
@@ -58,14 +70,23 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/message/${userId}`);
-      set({ messages: res.data });
+      const msg = res.data;
+
+      const decryptMessages = msg.map((obj: any) => {
+        return {
+          ...obj,
+          text: decryptMessage(obj.text),
+        };
+      });
+
+      set({ messages: decryptMessages });
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
       set({ isMessagesLoading: false });
     }
   },
-  
+
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     if (!selectedUser) {
@@ -77,7 +98,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         `/message/send/${selectedUser._id}`,
         messageData
       );
-      set({ messages: [...messages, res.data] });
+      const msg = res.data;
+
+      const decryptMessages = {
+        ...msg,
+        text: decryptMessage(msg.text),
+      };
+
+      set({ messages: [...messages, decryptMessages] });
     } catch (error: any) {
       toast.error(error.response.data.message);
     }
@@ -95,8 +123,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         newMessage.senderId === selectedUser._id;
       if (!isMessageSentFromSelectedUser) return;
 
+      const decryptMessages = {
+        ...newMessage,
+        text: decryptMessage(newMessage.text),
+      };
+
       set({
-        messages: [...get().messages, newMessage],
+        messages: [...get().messages, decryptMessages],
       });
     });
   },

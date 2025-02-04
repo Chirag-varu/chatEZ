@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { FiMoreVertical } from "react-icons/fi";
+// import { FiMoreVertical } from "react-icons/fi";
 // import { Users } from "lucide-react";
 import { FiSearch } from "react-icons/fi";
+import Options from "./Options";
 
 const Sidebar = () => {
     const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -47,13 +48,14 @@ const Sidebar = () => {
     if (isUsersLoading) return <SidebarSkeleton />;
 
     return (
-        <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 bg-white dark:bg-gray-900">
+        <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 bg-white dark:bg-gray-800">
             <div className="border-b border-base-300 w-full p-4 md:p-5 flex flex-col items-center">
 
                 {/* Header */}
                 <div className="w-full flex items-center justify-between">
                     <span className="font-medium text-gray-800 dark:text-gray-200">chatEZ</span>
-                    <FiMoreVertical className="text-gray-800 dark:text-gray-200 text-lg" />
+                    {/* <FiMoreVertical className="text-gray-800 dark:text-gray-200 text-lg" /> */}
+                    <Options />
                 </div>
 
                 {/* Search Input */}

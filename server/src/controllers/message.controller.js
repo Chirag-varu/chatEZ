@@ -2,6 +2,13 @@ import User from "../modules/user.module.js";
 import Message from "../modules/message.model.js";
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
+import CryptoJS from "crypto-js";
+
+const SECRET_KEY = process.env.MESSAGE_SECRET_KEY;
+
+const encryptMessage = (text) => {
+    return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
+};
 
 export const getUsers = async (req, res) => {
     try {
@@ -48,7 +55,7 @@ export const sendMessage = async (req, res) => {
         const newMessage = new Message({
             senderId: loggedInUser,
             receiverId: receiverId,
-            text: content,
+            text: encryptMessage(content),
             image: imageLink,
         });
 
