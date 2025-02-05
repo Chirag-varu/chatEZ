@@ -74,6 +74,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         throw new Error("API response is undefined");
       }
       const msg = res.data;
+      console.log('====================================');
+      console.log(res);
+      console.log('====================================');
 
       const decryptMessages = msg.map((obj: any) => {
         return {
