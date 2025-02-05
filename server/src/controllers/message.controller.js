@@ -33,7 +33,7 @@ export const getMessage = async (req, res) => {
             ],
         }).sort({ createdAt: 1 });
 
-        res.status(200).json(messages);
+        res.status(200).json({ data: messages});
     } catch (err) {
         console.log("Error In Get Message: " + err);
         res.status(500).json({ message: "Internal server error" });
