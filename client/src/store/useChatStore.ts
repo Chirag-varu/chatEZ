@@ -70,6 +70,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/message/${userId}`);
+      if (!res || !res.data) {
+        throw new Error("API response is undefined");
+      }
       const msg = res.data;
 
       const decryptMessages = msg.map((obj: any) => {
@@ -98,6 +101,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         `/message/send/${selectedUser._id}`,
         messageData
       );
+      if (!res || !res.data) {
+        console.error("Message sending failed: ", res);
+        throw new Error("No response from server");
+      }
       const msg = res.data;
 
       const decryptMessages = {
