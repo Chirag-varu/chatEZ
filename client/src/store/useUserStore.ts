@@ -18,7 +18,7 @@ interface UserStore {
   getAllUsers: () => Promise<void>;
 }
 
-export const useUserStore = create<UserStore>((set, get) => ({
+export const useUserStore = create<UserStore>((set) => ({
   users: [],
   selectedUser: null,
   isUsersLoading: false,

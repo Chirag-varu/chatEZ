@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 
 // Create an instance of Axios
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api", // Replace with your API base URL
+  baseURL: import.meta.env.MODE === "development" ? "http://localhost:5000/api" : "/api", // Replace with your API base URL
   withCredentials: true, // Send cookies when cross-origin requests
 
     //   timeout: 10000, // Set a timeout for requests
