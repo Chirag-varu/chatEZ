@@ -75,8 +75,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/auth/signup", data);
-      console.log("auth user: ", res.data);
+      await axiosInstance.post("/auth/signup", data);
       toast.success("OTP send successfully");
       get().connectSocket();
     } catch (error: any) {
@@ -89,8 +88,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   sendOTP: async (data) => {
     set({ isVerify_OTP: true });
     try {
-      const res = await axiosInstance.post("/auth/sendOTP", data);
-      console.log(res.data);
+      await axiosInstance.post("/auth/sendOTP", data);
       toast.success("OTP verified successfully");
       return true;
     } catch (error: any) {
@@ -120,8 +118,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   verify_otp2: async (data: { email: string; otp: string }) => {
     set({ isVerify_OTP: true });
     try {
-      const res = await axiosInstance.post("/auth/verify-otp2", data);
-      console.log(res);
+      await axiosInstance.post("/auth/verify-otp2", data);
       toast.success("OTP verified successfully");
       return true;
     } catch (error: any) {
@@ -136,9 +133,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
-      console.log('====================================');
-      console.log(res.data);
-      console.log('====================================');
       set({ authUser: res.data });
       toast.success("Logged in successfully");
       get().connectSocket();
@@ -190,8 +184,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   updatePassword: async (data) => {
     set({ isUpdatingPassword: true });
     try {
-      const res = await axiosInstance.put("/auth/update-password", data);
-      console.log(res);
+      await axiosInstance.put("/auth/update-password", data);
       toast.success("Password updated successfully");
       return true;
     } catch (error: any) {
@@ -206,8 +199,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   deleteProfile: async (data) => {
     set({ isDeletingProfile: true });
     try {
-      const res = await axiosInstance.delete("/auth/delete-account", { data });
-      console.log(res);
+      await axiosInstance.delete("/auth/delete-account", { data });
       toast.success("Profile deleted successfully");
     } catch (error: any) {
       console.error("Error in deleting profile: ", error);

@@ -35,8 +35,8 @@ app.use(
   })
 );
 
-app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 app.use("/api/message", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {

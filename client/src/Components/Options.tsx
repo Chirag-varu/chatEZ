@@ -5,6 +5,7 @@ import { MoreVertical, User, Users } from "lucide-react"
 import { Button } from "@/Components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover"
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast"
 
 export default function Options() {
     const [open, setOpen] = useState(false);
@@ -34,7 +35,11 @@ export default function Options() {
                         className="w-full justify-start dark:hover:bg-gray-800  "
                         onClick={() => {
                             // Add your create group action here
-                            console.log("Create Group will be comming soon");
+                            toast("Create Group will be comming soon",
+                                {
+                                    duration: 4000,
+                                }
+                            );
                         }}
                     >
                         <Users className="mr-2 h-4 w-4" />

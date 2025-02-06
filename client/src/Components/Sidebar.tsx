@@ -53,7 +53,7 @@ const Sidebar = () => {
 
                 {/* Header */}
                 <div className="w-full flex items-center justify-between">
-                    <span className="font-medium text-gray-800 dark:text-gray-200">chatEZ</span>
+                    <span className="font-medium text-gray-800 dark:text-gray-200 hidden md:flex">chatEZ</span>
                     {/* <FiMoreVertical className="text-gray-800 dark:text-gray-200 text-lg" /> */}
                     <Options />
                 </div>

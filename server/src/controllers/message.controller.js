@@ -32,9 +32,6 @@ export const getMessage = async (req, res) => {
                 { senderId: receiverId, receiverId: loggedInUser },
             ],
         }).sort({ createdAt: 1 });
-        console.log('====================================');
-        console.log(messages);
-        console.log('====================================');
 
         res.status(200).json(messages);
     } catch (err) {

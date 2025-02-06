@@ -159,7 +159,6 @@ export const verifyOTP = async (req, res) => {
     await newUser.save();
 
     delete otpStore[email];
-    console.log(newUser);
 
     const token = generateToken(newUser, res);
 
@@ -324,7 +323,7 @@ export const updateProfile = async (req, res) => {
         { new: true }
       );
     }
-    console.log("updated profile: ", updatedUser);
+    // console.log("updated profile: ", updatedUser);
 
     res.status(200).json(updatedUser);
   } catch (err) {
