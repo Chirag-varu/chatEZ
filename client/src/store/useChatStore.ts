@@ -42,8 +42,14 @@ interface ChatStore {
 }
 
 const decryptMessage = (cipherText: string) => {
+  console.log('====================================');
+  console.log("cipherText: ", cipherText);
+  console.log('====================================');
   const bytes = CryptoJS.AES.decrypt(cipherText, SECRET_KEY);
   const message = bytes.toString(CryptoJS.enc.Utf8);
+  console.log('====================================');
+  console.log("message: ", message);
+  console.log('====================================');
   return message;
 };
 
@@ -84,6 +90,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           text: decryptMessage(obj.text),
         };
       });
+      console.log('====================================');
+      console.log("mesg: ", decryptMessages);
+      console.log('====================================');
 
       set({ messages: decryptMessages });
     } catch (error: any) {

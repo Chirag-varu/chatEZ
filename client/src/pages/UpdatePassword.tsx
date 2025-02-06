@@ -23,8 +23,16 @@ const UpdatePassword = () => {
         if (!email.trim()) return toast.error("Email is required")
         setIsSubmitting(true);
         try {
-            sendOTP({ email });
-            setIsModalOpen(true);
+            const response = await sendOTP({ email });
+
+            if (!response) {
+                toast.error("Failed to send OTP");
+                setIsSubmitting(false);
+                return;
+            } else {
+                toast.success("OTP sent successfully");
+                setIsModalOpen(true);
+            }
         } catch {
             toast.error("Failed to send OTP");
         }
@@ -33,18 +41,18 @@ const UpdatePassword = () => {
     const handleOtpSubmit = async (e: any) => {
         e.preventDefault();
         setIsSubmitting(true);
-    
+
         try {
             const trimmedOtp = otp.trim();
             const isVerified = await verify_otp2({ email, otp: trimmedOtp });
             console.log("Is Verify OTP: " + isVerify_OTP);
-    
+
             if (!isVerified) {
                 setOtpError("Invalid OTP or OTP has expired");
                 setIsSubmitting(false);
                 return; // Stop further execution if OTP is incorrect
             }
-    
+
             setVerified(true);
             setIsModalOpen(false);
         } catch (error: any) {
@@ -53,7 +61,7 @@ const UpdatePassword = () => {
             setIsSubmitting(false);
         }
     };
-    
+
 
     const handleUpdatePassword = async (e: FormEvent) => {
         e.preventDefault();

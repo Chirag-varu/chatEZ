@@ -32,7 +32,7 @@ interface AuthStore {
     email: string;
     password: string;
   }) => Promise<void>;
-  sendOTP: (data: { email: string }) => Promise<void>;
+  sendOTP: (data: { email: string }) => Promise<boolean>;
   verify_otp: (data: { email: string; otp: string }) => Promise<boolean>;
   verify_otp2: (data: { email: string; otp: string }) => Promise<boolean>;
   login: (data: { email: string; password: string }) => Promise<void>;
@@ -92,9 +92,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const res = await axiosInstance.post("/auth/sendOTP", data);
       console.log(res.data);
       toast.success("OTP verified successfully");
-      get().connectSocket();
+      return true;
     } catch (error: any) {
       toast.error(error.response.data.message);
+      return false;
     } finally {
       set({ isVerify_OTP: false });
     }

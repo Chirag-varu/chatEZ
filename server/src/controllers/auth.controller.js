@@ -41,40 +41,49 @@ export const sendOTP = async (email) => {
   return otp;
 };
 
-export const sendOTP2 = async (email) => {
-  console.log("Sending OTP to: ", email.body.email);
-
-  const otp = Math.floor(100000 + Math.random() * 900000);
-  const expiresAt = Date.now() + 5 * 60 * 1000;
-  otpStore[email.body.email] = { otp, expiresAt };
-
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.EMAIL_ID,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false, // Allow self-signed certificates
-    },
-  });
-
-  const verificationMail = {
-    from: "chatEZ Email Verification Bot",
-    to: email.body.email,
-    subject: "chatEZ - Email Verification (Valid for 5 minutes)",
-    text: `The OTP for updating password is ${otp}. 
-It is only valid for 5 minutes.`,
-  };
-
+export const sendOTP2 = async (req, res) => {
   try {
-    await transporter.sendMail(verificationMail);
-  } catch (error) {
-    console.log("Error sending email:", error.message);
-    throw new Error("Failed to send OTP");
-  }
+    const { email } = req.body;
 
-  return otp;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid email" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const expiresAt = Date.now() + 5 * 60 * 1000;
+    otpStore[email] = { otp, expiresAt };
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_ID,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    const verificationMail = {
+      from: "chatEZ Email Verification Bot",
+      to: email,
+      subject: "chatEZ - Email Verification (Valid for 5 minutes)",
+      text: `The OTP for updating password is ${otp}. It is only valid for 5 minutes.`,
+    };
+
+    await transporter.sendMail(verificationMail);
+
+    return res.status(200).json({ message: "OTP sent successfully" });
+  } catch (error) {
+    console.error("Error sending OTP:", error.message);
+    return res.status(500).json({ message: "Failed to send OTP" });
+  }
 };
 
 export const signup = async (req, res) => {
@@ -345,9 +354,14 @@ export const updatePassword = async (req, res) => {
         .json({ message: "No account associated with this email" });
     }
 
-    const isValidPassword = await bcrypt.compare(password, existingUser.password);
+    const isValidPassword = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (isValidPassword) {
-      return res.status(400).json({ message: "Choose a new password that is not the same as your old one." });
+      return res.status(400).json({
+        message: "Choose a new password that is not the same as your old one.",
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
