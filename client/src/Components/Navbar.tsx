@@ -4,6 +4,7 @@ import logo from "../assets/favicon_T.png";
 import { useTheme } from "./theme-provider";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import { useUserStore } from "../store/useUserStore";
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(() => {
@@ -11,6 +12,7 @@ const Navbar = () => {
     return storedDarkMode ? storedDarkMode === "true" : false;
   });
   const { logout, authUser } = useAuthStore();
+  const { Adminlogout, authAdmin } = useUserStore();
 
   const { setTheme } = useTheme();
 
@@ -65,6 +67,24 @@ const Navbar = () => {
                 </Link>
                 <button
                   onClick={logout}
+                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                >
+                  <LogOut size={20} />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
+              </>
+            )}
+            {authAdmin && (
+              <>
+                <Link
+                  to="/admin"
+                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                >
+                  <User size={20} />
+                  <span className="hidden sm:inline">{authAdmin.name}</span>
+                </Link>
+                <button
+                  onClick={Adminlogout}
                   className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                 >
                   <LogOut size={20} />

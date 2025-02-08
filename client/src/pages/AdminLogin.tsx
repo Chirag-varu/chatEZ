@@ -1,9 +1,10 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import { useUserStore } from "../store/useUserStore";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/favicon_T.png";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,11 +13,24 @@ const AdminLogin = () => {
     password: "",
   });
   const { adminLogin, isLoggingIn } = useAuthStore();
+  const { checkAuthAdmin } = useUserStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    adminLogin(formData);
+    const response = await adminLogin(formData);
+
+    if (response) {
+      navigate("/admin");
+    }
   };
+
+  useEffect(() => {
+    const response = checkAuthAdmin();
+    console.log('====================================');
+    console.log('response:', response);
+    console.log('====================================');
+  }, []);
 
   return (
     <div className="min-h-screen grid dark:bg-gray-900">

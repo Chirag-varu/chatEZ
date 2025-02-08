@@ -1,12 +1,19 @@
 import express from "express";
+import rateLimit from 'express-rate-limit';
 import { signup, sendOTP2, login, adminLogin, logout, deleteAcc, updateProfile, updatePassword, checkAuth, verifyOTP, verifyOTP2 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
+const otpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Max 5 requests per IP in 15 minutes
+    message: "Too many OTP requests, please try again later."
+  });
+
 router.post("/signup", signup);
 
-router.post("/sendOTP", sendOTP2);
+router.post("/sendOTP", otpLimiter, sendOTP2);
 
 router.post("/verify-otp", verifyOTP);
 

@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import { useAuthStore } from "./store/useAuthStore";
+import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -39,10 +40,12 @@ function App() {
     "/admin-login",
   ];
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
-  console.log("online users:", onlineUsers);  
+  const { authAdmin, checkAuthAdmin } = useUserStore();
+  console.log("online users:", onlineUsers);
 
   useEffect(() => {
     checkAuth();
+    checkAuthAdmin();
   }, [checkAuth]);
 
   const shouldHaveNavbar = showNavbarPaths.some((path) =>
@@ -71,8 +74,8 @@ function App() {
         <Route path="/setting" element={authUser ? <Setting /> : <Navigate to="/Log-In" />} />
         <Route path="/voice-call" element={authUser ? <VoiceCall /> : <Navigate to="/Log-In" />} />
         <Route path="/video-call" element={authUser ? <VideoCall /> : <Navigate to="/Log-In" />} />
-        <Route path="/admin" element={authUser ? <Admin /> : <Navigate to="/admin-login" />} />
-        <Route path="/admin-login" element={!authUser ? <AdminLogin /> : <Navigate to="/admin" />} />
+        <Route path="/admin-login" element={!authAdmin ? <AdminLogin /> : <Navigate to="/admin" />} />
+        <Route path="/admin" element={authAdmin ? <Admin /> : <Navigate to="/admin-login" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -84,11 +87,12 @@ function App() {
 export default App;
 
 // TODO:
-// delete message one, many and all
-// delete user from admin panel
-// improve chat page
-// make message encryption and decryption for security
-// utils folder and make config file where all api route will be and base url will come from env file
-// should make adminAuth for protecting admin route
-// sendOTP route is open mean attracter can attac from post-man so need to add some security
+// delete message one, many and all feature
+// delete user from admin panel feature
+// chatEZ help account for help and support
+// make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room
+// make friend request feature where user can send friend request to other user and add them to group without permission
+// make friend list feature where user can see their friend list and chat with them
+// add web rtc for voice and video call feature
+// add notification feature for grp name, friend request, group request, etc
 

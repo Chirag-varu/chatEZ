@@ -126,6 +126,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (!socket) return;
 
     socket.on("newMessage", (newMessage: Message) => {
+      const isMobile = window.innerWidth <= 768;
       const isMessageSentFromSelectedUser =
         newMessage.senderId === selectedUser._id;
       if (!isMessageSentFromSelectedUser) return;
@@ -134,6 +135,22 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         ...newMessage,
         text: decryptMessage(newMessage.text),
       };
+      toast.success(
+        `📩 New message from ${selectedUser.name}: "${decryptMessages.text}"`, 
+        {
+          position: isMobile ? "top-center" : "bottom-right",
+          duration: 4000, // Keeps it visible for 4 seconds
+          style: {
+            background: "#2d2f33",
+            color: "#ffffff",
+            borderRadius: "10px",
+            padding: "12px",
+            fontSize: "14px",
+            borderLeft: "5px solid #22c55e", // Green accent
+          },
+          icon: "💬", // Chat bubble icon
+        }
+      );      
 
       set({
         messages: [...get().messages, decryptMessages],

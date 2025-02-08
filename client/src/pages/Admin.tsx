@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useUserStore } from "../store/useUserStore";
 import { FiSearch } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const { users, isUsersLoading, getAllUsers } = useUserStore();
@@ -8,6 +9,7 @@ const Admin = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -22,6 +24,16 @@ const Admin = () => {
     }
   };
 
+  const getUsers = async () => {
+    const response = await getAllUsers();
+    console.log('====================================');
+    console.log('response:', response);
+    console.log('====================================');
+    if (!response) {
+      navigate('/admin-login');
+    }
+  }
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
 
@@ -31,7 +43,7 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
-    getAllUsers();
+    getUsers();
   }, []);
 
   const filteredUsers = users.filter((user) => {
