@@ -12,5 +12,8 @@
     "license": "ISC",
     "devDependencies": {
         "@types/node": "^22.13.1"
+    },
+    "dependencies": {
+        "@zegocloud/zego-uikit-prebuilt": "^2.14.1"
     }
 }

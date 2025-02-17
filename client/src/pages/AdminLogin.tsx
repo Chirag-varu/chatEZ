@@ -26,10 +26,7 @@ const AdminLogin = () => {
   };
 
   useEffect(() => {
-    const response = checkAuthAdmin();
-    console.log('====================================');
-    console.log('response:', response);
-    console.log('====================================');
+    checkAuthAdmin();
   }, []);
 
   return (

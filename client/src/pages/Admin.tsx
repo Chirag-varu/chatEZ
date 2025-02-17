@@ -26,9 +26,6 @@ const Admin = () => {
 
   const getUsers = async () => {
     const response = await getAllUsers();
-    console.log('====================================');
-    console.log('response:', response);
-    console.log('====================================');
     if (!response) {
       navigate('/admin-login');
     }

@@ -22,6 +22,7 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import JoinRoom from "./pages/joinRoom";
 
 function App() {
   const location = useLocation();
@@ -76,6 +77,7 @@ function App() {
         <Route path="/video-call" element={authUser ? <VideoCall /> : <Navigate to="/Log-In" />} />
         <Route path="/admin-login" element={!authAdmin ? <AdminLogin /> : <Navigate to="/admin" />} />
         <Route path="/admin" element={authAdmin ? <Admin /> : <Navigate to="/admin-login" />} />
+        <Route path="/joinRoom/:roomCode" element={<JoinRoom/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -89,7 +91,6 @@ export default App;
 // TODO:
 // delete message one, many and all feature
 // delete user from admin panel feature
-// chatEZ help account for help and support
 // make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room
 // make friend request feature where user can send friend request to other user and add them to group without permission
 // make friend list feature where user can see their friend list and chat with them

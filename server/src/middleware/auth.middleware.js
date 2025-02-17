@@ -40,9 +40,6 @@ export const isAdmin = async (req, res, next) => {
     const decoded_token = jwt.verify(jwt_token, process.env.SECRET_KEY);
 
     const admin = await Admin.findById(decoded_token.id);
-    console.log("====================================");
-    console.log(admin);
-    console.log("====================================");
     if (admin) {
       req.admin = admin;
       return next();

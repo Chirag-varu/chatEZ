@@ -30,9 +30,6 @@ export const deleteUser = async (req, res) => {
 
 export const checkAdmin = async (req, res) => {
   try {
-    console.log('====================================');
-    console.log("this ", req.admin);
-    console.log('====================================');
     res.status(200).json(req.admin);
   } catch (error) {
     console.error("Error in checkAdmin: ", error);
