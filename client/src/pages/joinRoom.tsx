@@ -1,25 +1,25 @@
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { Button } from "@/Components/ui/button";
+// import { Button } from "@/Components/ui/button";
 import { ZegoConfig } from "@/lib/zegoConfig";
 import { useEffect, useRef } from "react";
-import { ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom";
+// import { ArrowLeft } from "lucide-react"
+// import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
     const { authUser } = useAuthStore();
     const { Host } = useParams<{ Host: string }>();
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const randomID = () => {
         return Math.floor(10000 + Math.random() * 90000).toString();
     };
 
-    const handleGoBack = () => {
-        navigate("/chat");
-    }
+    // const handleGoBack = () => {
+    //     navigate("/chat");
+    // }
 
     useEffect(() => {
         const appID = ZegoConfig.appID;
