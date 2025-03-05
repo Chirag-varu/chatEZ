@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "admin@gmail.com",
+    password: "admin444",
   });
   const { adminLogin, isLoggingIn } = useAuthStore();
   const { checkAuthAdmin } = useUserStore();

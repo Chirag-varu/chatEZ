@@ -1,20 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import { MoreVertical, User, Users } from "lucide-react"
+import { MoreVertical, User, Users, UserPlus } from "lucide-react"
 import { Button } from "@/Components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover"
 import { useNavigate } from "react-router-dom";
 // import toast from "react-hot-toast"
-import { useAuthStore } from "../store/useAuthStore";
+// import { useAuthStore } from "../store/useAuthStore";
 
 export default function Options() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const { authUser } = useAuthStore();
+    // const { authUser } = useAuthStore();
 
-    const handleCreateGroup = () => {
-        navigate(`/joinRoom/${authUser?.name}`);
+    const generateRoomID = () => {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    const handleCreateRoom = () => {
+        navigate(`/joinRoom/${generateRoomID()}`);
+    }
+
+    const handleJoinRoom = () => {
+        navigate('/joiningRoom')
     }
 
     return (
@@ -39,10 +47,18 @@ export default function Options() {
                     <Button
                         variant="ghost"
                         className="w-full justify-start dark:hover:bg-gray-800  "
-                        onClick={handleCreateGroup}
+                        onClick={handleCreateRoom}
                     >
                         <Users className="mr-2 h-4 w-4" />
-                        <span>Create Group</span>
+                        <span>Create Room</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        className="w-full justify-start dark:hover:bg-gray-800  "
+                        onClick={handleJoinRoom}
+                    >
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Join Room</span>
                     </Button>
                 </div>
             </PopoverContent>

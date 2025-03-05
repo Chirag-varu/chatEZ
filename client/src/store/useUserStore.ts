@@ -53,9 +53,8 @@ export const useUserStore = create<UserStore>((set) => ({
 
   Adminlogout: async () => {
     try {
-      await axiosInstance.post("/user/Adminlogout");
+      await axiosInstance.post("/auth/Adminlogout");
       set({ authAdmin: null });
-      toast.success("Logged out successfully");
     } catch (error: any) {
       toast.error(error.response.data.message);
     }

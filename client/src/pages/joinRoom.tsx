@@ -1,34 +1,31 @@
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-// import { Button } from "@/Components/ui/button";
 import { ZegoConfig } from "@/lib/zegoConfig";
 import { useEffect, useRef } from "react";
-// import { ArrowLeft } from "lucide-react"
-// import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
     const { authUser } = useAuthStore();
-    const { Host } = useParams<{ Host: string }>();
+    const { roomID } = useParams<{ roomID: string }>(); // Get roomID from URL
     const containerRef = useRef<HTMLDivElement | null>(null);
-    // const navigate = useNavigate();
 
-    const randomID = () => {
-        return Math.floor(10000 + Math.random() * 90000).toString();
-    };
-
-    // const handleGoBack = () => {
-    //     navigate("/chat");
-    // }
+    const randomID = () => Math.floor(10000 + Math.random() * 90000).toString();
 
     useEffect(() => {
+        if (!roomID || !authUser?.name) {
+            console.log('====================================');
+            console.log("roomID: ", roomID);
+            console.log("auth name: ", authUser?.name);
+            console.log('====================================');
+        }
+
         const appID = ZegoConfig.appID;
         const serverSecret = ZegoConfig.serverSecret;
-        const roomCode = randomID();
+
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
             appID,
             serverSecret,
-            roomCode,
+            (roomID ? roomID.toString() : "321476"), // Use the same roomID for all participants
             authUser?._id || randomID(),
             authUser?.name || "Guest"
         );
@@ -36,17 +33,11 @@ const JoinRoom = () => {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
 
         zp.joinRoom({
-            container: containerRef.current, // Attach to div
+            container: containerRef.current,
             sharedLinks: [
                 {
                     name: "Copy link",
-                    url:
-                        window.location.protocol +
-                        "//" +
-                        window.location.host +
-                        window.location.pathname +
-                        "?roomID=" +
-                        roomCode,
+                    url: `${window.location.origin}/joinRoom/${roomID}`,
                 },
             ],
             scenario: {
@@ -56,23 +47,14 @@ const JoinRoom = () => {
             enableUserSearch: true,
         });
 
-        return () => zp.destroy(); // Cleanup to prevent memory leaks
+        return () => {
+            zp.destroy();
+            containerRef.current = null;
+        };
 
-    }, [Host, authUser]); // Only run when `roomCode` or `authUser` changes
+    }, [roomID, authUser]);
 
-    return (
-        <>
-            {/* <div className="min-h-screen dark:bg-gray-900 bg-gray-50 pt-16 flex flex-col items-center justify-center">
-                <div>
-                    <Button onClick={handleGoBack} className="my-2 ml-2 flex items-center gap-2 hover:bg-black hover:text-white dark:bg-gray-800" variant="outline">
-                        <ArrowLeft className="h-4 w-4" />
-                        Go Back
-                    </Button>
-                </div>
-            </div> */}
-            <div ref={containerRef} className="w-full h-screen" />
-        </>
-    );
+    return <div ref={containerRef} className="w-full h-screen" />;
 };
 
 export default JoinRoom;

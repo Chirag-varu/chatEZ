@@ -23,6 +23,7 @@ import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import JoinRoom from "./pages/joinRoom";
+import JoiningRoom from "./pages/JoiningRoom";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
     "/video-call",
     "/admin",
     "/admin-login",
+    "/joiningRoom",
   ];
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { authAdmin, checkAuthAdmin } = useUserStore();
@@ -77,7 +79,8 @@ function App() {
         <Route path="/video-call" element={authUser ? <VideoCall /> : <Navigate to="/Log-In" />} />
         <Route path="/admin-login" element={!authAdmin ? <AdminLogin /> : <Navigate to="/admin" />} />
         <Route path="/admin" element={authAdmin ? <Admin /> : <Navigate to="/admin-login" />} />
-        <Route path="/joinRoom/:roomCode" element={<JoinRoom/>}/>
+        <Route path="/joinRoom/:rommID" element={authUser ? <JoinRoom/> : <Navigate to="chat"/>}/>
+        <Route path="/joiningRoom" element={authUser ? <JoiningRoom/> : <Navigate to="chat"/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -89,11 +92,12 @@ function App() {
 export default App;
 
 // TODO:
-// delete message one, many and all feature
-// delete user from admin panel feature
-// make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room
-// make friend request feature where user can send friend request to other user and add them to group without permission
-// make friend list feature where user can see their friend list and chat with them
-// add web rtc for voice and video call feature
-// add notification feature for grp name, friend request, group request, etc
+// delete user from admin panel feature  - E
+// user is active or not feature in admin dashboard - M
+// delete message one, many and all feature - M
+// make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room - H
+// make friend request feature where user can send friend request to other user and add them to group without permission - H
+// make friend list feature where user can see their friend list and chat with them - 
+// add web rtc for voice and video call feature - H
+// add notification feature for grp name, friend request, group request, etc - M
 
