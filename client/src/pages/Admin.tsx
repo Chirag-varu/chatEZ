@@ -12,7 +12,6 @@ import {
   Filter,
   BarChart3,
   Settings,
-  LogOut,
   ChevronDown,
   MoreHorizontal,
 } from "lucide-react"
@@ -35,13 +34,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/Components/ui/sidebar"
 
 import { useUserStore } from "../store/useUserStore"
@@ -289,7 +286,7 @@ const Admin = () => {
 }
 
 const AdminSidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   return (
     <Sidebar className="mt-10">
