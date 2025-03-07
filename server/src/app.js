@@ -35,9 +35,9 @@ app.use(
   })
 );
 
-app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
-app.use("/api/message", messageRoutes);
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/message", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));

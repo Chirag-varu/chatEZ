@@ -92,9 +92,7 @@ function App() {
 export default App;
 
 // TODO:
-// delete user from admin panel feature  - E
-// user is active or not feature in admin dashboard - M
-// delete message one, many and all feature - M
+// many and all msg delete feature - M
 // make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room - H
 // make friend request feature where user can send friend request to other user and add them to group without permission - H
 // make friend list feature where user can see their friend list and chat with them - 

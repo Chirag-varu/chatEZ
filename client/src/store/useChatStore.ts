@@ -9,6 +9,7 @@ const SECRET_KEY = import.meta.env.VITE_MESSAGE_SECRET_KEY;
 interface Message {
   _id: string;
   senderId: string;
+  receiverId: string;
   content: string;
   text: string;
   image: string;
@@ -36,6 +37,7 @@ interface ChatStore {
     content: string;
     image?: string | ArrayBuffer | null;
   }) => Promise<void>;
+  deleteMessage: (messageId: string) => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | null) => void;
@@ -118,6 +120,19 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
+  deleteMessage: async (messageId: string) => {
+    const { messages } = get();
+    try {
+      await axiosInstance.delete(`/message/delete/${messageId}`);
+      const updatedMessages = messages.filter((msg) => msg._id !== messageId);
+      set({ messages: updatedMessages });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
@@ -136,7 +151,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         text: decryptMessage(newMessage.text),
       };
       toast.success(
-        `📩 New message from ${selectedUser.name}: "${decryptMessages.text}"`, 
+        `📩 New message from ${selectedUser.name}: "${decryptMessages.text}"`,
         {
           position: isMobile ? "top-center" : "bottom-right",
           duration: 4000, // Keeps it visible for 4 seconds
@@ -150,7 +165,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           },
           icon: "💬", // Chat bubble icon
         }
-      );      
+      );
 
       set({
         messages: [...get().messages, decryptMessages],

@@ -43,8 +43,12 @@ import {
 
 import { useUserStore } from "../store/useUserStore"
 import toast from "react-hot-toast"
+import { useAuthStore } from "../store/useAuthStore";
+import Modal from "../Components/Modal";
 
 const Admin = () => {
+  const { authUser, onlineUsers, deleteProfile } = useAuthStore();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { users, isUsersLoading, getAllUsers } = useUserStore()
   const [searchTerm, setSearchTerm] = useState("")
   const [startDate, setStartDate] = useState("")
@@ -69,6 +73,16 @@ const Admin = () => {
       }
     }
   }
+
+  const handleDeleteAccount = async () => {
+    setIsModalOpen(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    await deleteProfile({ email: authUser?.email || "" });
+    setIsModalOpen(false);
+    navigate("/");
+  };
 
   const getUsers = async () => {
     const response = await getAllUsers()
@@ -102,7 +116,7 @@ const Admin = () => {
     const today = new Date()
     return userDate.getMonth() === today.getMonth() && userDate.getFullYear() === today.getFullYear()
   }).length
-  const activeUsers = Math.floor(totalUsers * 0.75) // Placeholder calculation
+  const activeUsers = onlineUsers.length;
 
   return (
     <SidebarProvider>
@@ -242,9 +256,15 @@ const Admin = () => {
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell>
-                                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                                    Active
-                                  </Badge>
+                                  {onlineUsers.includes(user._id) ?
+                                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                      Active
+                                    </Badge>
+                                    :
+                                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                                      Inctive
+                                    </Badge>
+                                  }
                                 </TableCell>
                                 <TableCell className="text-right">
                                   <DropdownMenu>
@@ -258,7 +278,7 @@ const Admin = () => {
                                       <DropdownMenuItem onClick={handleFeature}>View profile</DropdownMenuItem>
                                       <DropdownMenuItem onClick={handleFeature}>Edit user</DropdownMenuItem>
                                       <DropdownMenuSeparator />
-                                      <DropdownMenuItem className="text-destructive" onClick={handleFeature}>Delete user</DropdownMenuItem>
+                                      <DropdownMenuItem className="text-destructive" onClick={handleDeleteAccount}>Delete user</DropdownMenuItem>
                                     </DropdownMenuContent>
                                   </DropdownMenu>
                                 </TableCell>
@@ -280,6 +300,15 @@ const Admin = () => {
             )}
           </main>
         </div>
+
+        {/* Delete Account Modal */}
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={confirmDeleteAccount}
+          title="Delete Account"
+          description="Are you sure you want to delete your account? This action cannot be undone."
+        />
       </div>
     </SidebarProvider>
   )
