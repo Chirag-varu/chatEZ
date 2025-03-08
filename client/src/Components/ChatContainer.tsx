@@ -118,16 +118,18 @@ const ChatContainer = () => {
                                         </button>
                                     ))}
 
-                                    {/* Message Bubble */}
-                                    <div className="chat-bubble flex flex-col">
-                                        {message.image && (
-                                            <img
-                                                src={message.image}
-                                                alt="Attachment"
-                                                className="sm:max-w-[200px] rounded-md mb-2"
-                                            />
-                                        )}
-                                        {message.text && <p>{message.text}</p>}
+                                    <div>
+                                        {/* Message Bubble */}
+                                        <div className="chat-bubble flex flex-col">
+                                            {message.image && (
+                                                <img
+                                                    src={message.image}
+                                                    alt="Attachment"
+                                                    className="sm:max-w-[200px] rounded-md mb-2"
+                                                />
+                                            )}
+                                            {message.text && <p>{message.text}</p>}
+                                        </div>
                                     </div>
 
                                     {hoveredMessage === message._id && (message.receiverId === authUser?._id ? (
