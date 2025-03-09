@@ -1,3 +1,8 @@
+# 1.2.3 / 2025-03-09
+
+*Added clear chat feature
+*Fixed minor bugs in CLient and Server for stability
+
 # 1.2.2 / 2025-03-08
 
 *Added Search bar in chat container

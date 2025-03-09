@@ -11,11 +11,19 @@ import toast from "react-hot-toast";
 export default function Options3({ setSearchBar }: { setSearchBar: (value: boolean) => void }) {
     const [open, setOpen] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { setSelectedUser } = useChatStore();
+    const { setSelectedUser, deleteAllMessages } = useChatStore();
 
-    const handleFeature = () => {
-        toast("This feature is not available yet");
-        setIsDialogOpen(false);
+    const handleDeleteAllMessages = async () => {
+        try {
+            const res = await deleteAllMessages();
+            if (!res) {
+                toast.error("Server TimeOut: try after some time");
+            }
+        } catch (error) {
+            toast.error("Failed to clear chat");
+        } finally {
+            setIsDialogOpen(false);
+        }
     }
 
     return (
@@ -57,8 +65,8 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
             </Popover>
 
             {/* Confirmation Modal */}
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
+                <DialogContent aria-describedby={undefined}>
                     <DialogHeader>
                         <DialogTitle>Are you sure?</DialogTitle>
                     </DialogHeader>
@@ -71,7 +79,7 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                         </Button>
                         <Button
                             variant="destructive"
-                            onClick={handleFeature}
+                            onClick={handleDeleteAllMessages}
                         >
                             Yes, Clear Chat
                         </Button>

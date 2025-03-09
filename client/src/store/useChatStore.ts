@@ -38,6 +38,7 @@ interface ChatStore {
     image?: string | ArrayBuffer | null;
   }) => Promise<void>;
   deleteMessage: (messageId: string) => Promise<boolean>;
+  deleteAllMessages: () => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | null) => void;
@@ -126,6 +127,21 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       await axiosInstance.delete(`/message/delete/${messageId}`);
       const updatedMessages = messages.filter((msg) => msg._id !== messageId);
       set({ messages: updatedMessages });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
+  deleteAllMessages: async () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return false;
+
+    try {
+      const res = await axiosInstance.delete(`/message/deleteAll/${selectedUser._id}`);
+      toast.success(res.data.message);
+      set({ messages: [] });
       return true;
     } catch (error: any) {
       toast.error(error.response.data.message);
