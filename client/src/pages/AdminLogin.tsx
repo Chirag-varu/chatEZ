@@ -55,7 +55,7 @@ const AdminLogin = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                  placeholder="admin@gmail.com"
+                  placeholder="your@gmail.com"
                   value={formData.email}
                   autoComplete="email"
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -74,7 +74,7 @@ const AdminLogin = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   className="input input-bordered w-full pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                  placeholder="admin444"
+                  placeholder="Enter your password"
                   value={formData.password}
                   autoComplete="current-password"
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}

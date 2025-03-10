@@ -1,3 +1,8 @@
+# 1.2.4 / 2025-03-10
+
+*Updated security - (disabled critical event like deleting account from admin in demo mode)
+*Fixed minor bugs in CLient for stability (Cosmetic Bug - Admin dashboard sidebar and placeholder in Admin login)
+
 # 1.2.3 / 2025-03-09
 
 *Added clear chat feature

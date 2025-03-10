@@ -47,7 +47,8 @@ import { useAuthStore } from "../store/useAuthStore";
 import Modal from "../Components/Modal";
 
 const Admin = () => {
-  const { authUser, onlineUsers, deleteProfile } = useAuthStore();
+  // const { authUser, deleteProfile } = useAuthStore();
+  const { onlineUsers } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { users, isUsersLoading, getAllUsers } = useUserStore()
   const [searchTerm, setSearchTerm] = useState("")
@@ -58,8 +59,13 @@ const Admin = () => {
   const navigate = useNavigate();
 
   const handleFeature = () => {
-    toast("This feature is not available yet");
+    toast("This feature is disabled in demo");
   }
+
+  // const confirmDeleteAccount = async () => {
+  //   await deleteProfile({ email: authUser?.email || "" });
+  //   setIsModalOpen(false);
+  // };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -76,12 +82,6 @@ const Admin = () => {
 
   const handleDeleteAccount = async () => {
     setIsModalOpen(true);
-  };
-
-  const confirmDeleteAccount = async () => {
-    await deleteProfile({ email: authUser?.email || "" });
-    setIsModalOpen(false);
-    navigate("/");
   };
 
   const getUsers = async () => {
@@ -305,7 +305,7 @@ const Admin = () => {
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onConfirm={confirmDeleteAccount}
+          onConfirm={handleFeature}
           title="Delete Account"
           description="Are you sure you want to delete your account? This action cannot be undone."
         />
@@ -317,6 +317,10 @@ const Admin = () => {
 const AdminSidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   // const navigate = useNavigate()
 
+  const handleFeature = () => {
+    toast("This feature is not available yet");
+  }
+
   return (
     <Sidebar className="mt-10">
       <SidebarHeader className="border-b px-4 py-6 ">
@@ -326,7 +330,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiv
           <SidebarMenuItem>
             <SidebarMenuButton
               isActive={activeTab === "dashboard"}
-              onClick={() => setActiveTab("dashboard")}
+              onClick={handleFeature}
               tooltip="Dashboard"
             >
               <BarChart3 className="h-4 w-4" />
@@ -342,7 +346,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiv
           <SidebarMenuItem>
             <SidebarMenuButton
               isActive={activeTab === "calendar"}
-              onClick={() => setActiveTab("calendar")}
+              onClick={handleFeature}
               tooltip="Calendar"
             >
               <Calendar className="h-4 w-4" />
@@ -352,7 +356,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }: { activeTab: string; setActiv
           <SidebarMenuItem>
             <SidebarMenuButton
               isActive={activeTab === "settings"}
-              onClick={() => setActiveTab("settings")}
+              onClick={handleFeature}
               tooltip="Settings"
             >
               <Settings className="h-4 w-4" />
