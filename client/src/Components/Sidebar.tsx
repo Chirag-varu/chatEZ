@@ -9,7 +9,7 @@ import Options from "./Options";
 
 const Sidebar = () => {
     const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
-    const { onlineUsers } = useAuthStore();
+    const { onlineUsers, authUser } = useAuthStore();
     const [showOnlineOnly, setShowOnlineOnly] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
@@ -53,7 +53,7 @@ const Sidebar = () => {
 
                 {/* Header */}
                 <div className="w-full flex items-center justify-between">
-                    <span className="font-medium text-gray-800 dark:text-gray-200 hidden md:flex">chatEZ</span>
+                    <span className="font-medium text-gray-800 dark:text-gray-200 hidden md:flex">{authUser?.name}</span>
                     {/* <FiMoreVertical className="text-gray-800 dark:text-gray-200 text-lg" /> */}
                     <Options />
                 </div>
@@ -75,9 +75,10 @@ const Sidebar = () => {
                     <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 text-base sm:text-lg" />
 
                     {/* Shortcut Keys (Hidden on very small screens) */}
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 items-center gap-1 hidden md:flex">
-                        <kbd className="kbd kbd-sm">Ctrl</kbd>
-                        <kbd className="kbd kbd-sm">K</kbd>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 items-center gap-1 hidden md:flex ">
+                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px]">Ctrl</kbd>
+                        <span>+</span>
+                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px]">K</kbd>
                     </div>
                 </div>
 

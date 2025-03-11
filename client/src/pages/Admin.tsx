@@ -159,10 +159,10 @@ const Admin = () => {
                       onChange={handleSearchChange}
                       className="pl-9 pr-16"
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs text-muted-foreground">
-                      <kbd className="px-1.5 py-0.5 bg-muted border rounded text-[10px]">Ctrl</kbd>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs">
+                      <kbd className="px-1.5 py-0.5 bg-muted border rounded text-[12px]">Ctrl</kbd>
                       <span>+</span>
-                      <kbd className="px-1.5 py-0.5 bg-muted border rounded text-[10px]">K</kbd>
+                      <kbd className="px-1.5 py-0.5 bg-muted border rounded text-[12px]">K</kbd>
                     </div>
                   </div>
 

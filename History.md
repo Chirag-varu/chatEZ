@@ -1,3 +1,9 @@
+# 1.2.5 / 2025-03-11
+
+*Added Create Group Model
+*Updated Chat-app Sidebar - (added user name and create and join group option)
+*Fixed minor bugs in CLient for stability (Cosmetic Bug - shortcut command UI(icon) improved)
+
 # 1.2.4 / 2025-03-10
 
 *Updated security - (disabled critical event like deleting account from admin in demo mode)

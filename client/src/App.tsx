@@ -93,7 +93,7 @@ export default App;
 
 // TODO:
 // add reply feature - M
-// make group chat feature like making private room and adding user to that room and user will get req if they accept they will be added to that room - H
+// make group chat feature like making private group and adding user to that room and user will get req if they accept they will be added to that room - H
 // make friend request feature where user can send friend request to other user and add them to group without permission - H
 // add feature to add user to group with permission - H
 // add feature to remove user from group - E

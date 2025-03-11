@@ -1,17 +1,20 @@
 "use client"
 
 import { useState } from "react";
-import { MoreVertical, User, Users, UserPlus } from "lucide-react";
+import { MoreVertical, User, Users, UserPlus, MessageCirclePlus, SquarePlus } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
 // import toast from "react-hot-toast"
 // import { useAuthStore } from "../store/useAuthStore";
+import Modal2 from "../Components/Modal2";
 
 export default function Options() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     // const { authUser } = useAuthStore();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const generateRoomID = () => {
         return Math.floor(100000 + Math.random() * 900000).toString();
@@ -23,6 +26,15 @@ export default function Options() {
 
     const handleJoinRoom = () => {
         navigate('/joiningRoom')
+    }
+
+    const handleCreateGroup = () => {
+        setIsModalOpen(false);
+        toast('Feature coming soon!');
+    }
+
+    const handleFeature = () => {
+        toast('Feature coming soon!');
     }
 
     return (
@@ -47,6 +59,22 @@ export default function Options() {
                     <Button
                         variant="ghost"
                         className="w-full justify-start dark:hover:bg-gray-800  "
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        <MessageCirclePlus className="mr-2 h-4 w-4" />
+                        <span>Create Group</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        className="w-full justify-start dark:hover:bg-gray-800  "
+                        onClick={handleFeature}
+                    >
+                        <SquarePlus className="mr-2 h-4 w-4" />
+                        <span>Join Group</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        className="w-full justify-start dark:hover:bg-gray-800  "
                         onClick={handleCreateRoom}
                     >
                         <Users className="mr-2 h-4 w-4" />
@@ -61,6 +89,13 @@ export default function Options() {
                         <span>Join Room</span>
                     </Button>
                 </div>
+
+                {/* Delete Account Modal */}
+                <Modal2
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={handleCreateGroup}
+                />
             </PopoverContent>
         </Popover>
     )
