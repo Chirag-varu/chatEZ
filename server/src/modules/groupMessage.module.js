@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const GroupMessageSchema = new Schema(
+const groupMessageSchema = new Schema(
   {
     groupId: { type: Schema.Types.ObjectId, ref: "Group", required: true },
     sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -12,4 +12,6 @@ const GroupMessageSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("GroupMessage", GroupMessageSchema);
+const groupMessage =  model("GroupMessage", groupMessageSchema);
+
+export default groupMessage;
