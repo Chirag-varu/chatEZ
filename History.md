@@ -1,3 +1,9 @@
+# 1.2.6 / 2025-03-12
+
+*Improved sidebar option modal (UI)
+*Removed join group button - (as admin of group have riots to add an user)
+*Fixed minor bug - (api route name from getAlluser to users in /controller folder)
+
 # 1.2.5 / 2025-03-11
 
 *Added Create Group Model

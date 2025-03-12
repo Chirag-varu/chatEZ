@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/userRoute.route.js";
 import messageRoutes from "./routes/message.route.js";
+import groupRoute from "./routes/groupRoute.route.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -38,6 +39,7 @@ app.use(
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/message", messageRoutes);
+app.use("/api/v1/group", groupRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));

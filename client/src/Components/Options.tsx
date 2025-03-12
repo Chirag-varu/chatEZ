@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { MoreVertical, User, Users, UserPlus, MessageCirclePlus, SquarePlus } from "lucide-react";
+import { MoreVertical, User, Users, UserPlus, MessageCirclePlus } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { useNavigate } from "react-router-dom";
@@ -33,10 +33,6 @@ export default function Options() {
         toast('Feature coming soon!');
     }
 
-    const handleFeature = () => {
-        toast('Feature coming soon!');
-    }
-
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -63,14 +59,6 @@ export default function Options() {
                     >
                         <MessageCirclePlus className="mr-2 h-4 w-4" />
                         <span>Create Group</span>
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        className="w-full justify-start dark:hover:bg-gray-800  "
-                        onClick={handleFeature}
-                    >
-                        <SquarePlus className="mr-2 h-4 w-4" />
-                        <span>Join Group</span>
                     </Button>
                     <Button
                         variant="ghost"

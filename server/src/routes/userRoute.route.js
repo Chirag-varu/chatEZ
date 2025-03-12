@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers, deleteUser, checkAdmin } from "../controllers/getAllUsers.controller.js";
+import { getAllUsers, deleteUser, checkAdmin } from "../controllers/users.controller.js";
 import { isAdmin } from "../middleware/auth.middleware.js";
 
 const route = express.Router();

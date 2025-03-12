@@ -83,7 +83,7 @@ export default function Modal2({ isOpen, onClose, onConfirm }: Modal2Props) {
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button type="button" variant="outline" className="flex-1" onClick={onClose}>
+                            <Button type="button" variant="outline" className="flex-1 bg-black/10 hover:border-black/8" onClick={onClose}>
                                 Cancel
                             </Button>
                         </DialogClose>
