@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useChatStore } from "../store/useChatStore";
+import { useGroupStore } from "../store/useGroupStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 // import { FiMoreVertical } from "react-icons/fi";
@@ -7,9 +8,20 @@ import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { FiSearch } from "react-icons/fi";
 import Options from "./Options";
 
+interface Group {
+    _id: string;
+    groupName: string;
+    Admin: string;
+    groupPic: string;
+    members: string[];
+    messages: string;
+    createdAt: string;
+}
+
 const Sidebar = () => {
     const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
     const { onlineUsers, authUser } = useAuthStore();
+    const { groups, getGroups } = useGroupStore();
     const [showOnlineOnly, setShowOnlineOnly] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
@@ -28,6 +40,9 @@ const Sidebar = () => {
     };
 
     useEffect(() => {
+        console.log('====================================');
+        console.log(Array.isArray(groups));
+        console.log('====================================');
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
@@ -37,7 +52,8 @@ const Sidebar = () => {
 
     useEffect(() => {
         getUsers();
-    }, [getUsers]);
+        getGroups(authUser?._id || "");
+    }, [getUsers, getGroups]);
 
     const filteredUsers = users.filter((user) => {
         const isOnline = showOnlineOnly ? onlineUsers.includes(user._id) : true;
@@ -102,6 +118,25 @@ const Sidebar = () => {
 
 
             <div className="overflow-y-auto w-full py-3">
+                {Array.isArray(groups) && groups.map((group: Group) => (
+                    <button
+                        key={group._id}
+                        className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 dark:hover:bg-gray-700 transition-all rounded-lg ${selectedUser?._id === group._id ? "bg-base-300 ring-1 ring-base-300 dark:bg-gray-700 dark:ring-gray-500" : ""
+                            }`}
+                    >
+                        <div className="relative mx-auto lg:mx-0 border-spacing-2 border-slate-800">
+                            <img
+                                src={group.groupPic}
+                                alt={group.groupName}
+                                className="size-12 object-cover rounded-full dark:border dark:border-gray-500 transition-transform transform hover:scale-105"
+                            />
+                        </div>
+
+                        <div className="hidden lg:block text-left min-w-0">
+                            <div className="font-medium truncate text-gray-800 dark:text-gray-200">{group.groupName}</div>
+                        </div>
+                    </button>
+                ))}
                 {filteredUsers.map((user) => (
                     <button
                         key={user._id}

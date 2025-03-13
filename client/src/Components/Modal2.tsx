@@ -15,7 +15,10 @@ import { Label } from "@/Components/ui/label";
 import { BadgePlus } from "lucide-react";
 import { useId, useState, useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
+import { useGroupStore } from "../store/useGroupStore";
 import Select from "react-select";
+// import toast from "react-hot-toast";
 
 interface Modal2Props {
     isOpen: boolean;
@@ -28,7 +31,9 @@ export default function Modal2({ isOpen, onClose, onConfirm }: Modal2Props) {
     const [groupName, setGroupName] = useState("");
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
     const { getUsers, users } = useChatStore();
+    const { authUser } = useAuthStore();
     // const { selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+    const { createGroup } = useGroupStore();
 
     // Fetch users from API
     useEffect(() => {
@@ -36,8 +41,9 @@ export default function Modal2({ isOpen, onClose, onConfirm }: Modal2Props) {
         getUsers();
     }, []);
 
-    const handleCreateGroup = () => {
+    const handleCreateGroup = async () => {
         if (groupName.trim() === "" || selectedUsers.length === 0) return;
+        await createGroup({ groupName, members: selectedUsers, Admin: authUser?._id || "" });
         onConfirm(groupName, selectedUsers);
         onClose();
     };

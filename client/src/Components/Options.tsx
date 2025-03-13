@@ -5,7 +5,7 @@ import { MoreVertical, User, Users, UserPlus, MessageCirclePlus } from "lucide-r
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 // import toast from "react-hot-toast"
 // import { useAuthStore } from "../store/useAuthStore";
 import Modal2 from "../Components/Modal2";
@@ -30,7 +30,6 @@ export default function Options() {
 
     const handleCreateGroup = () => {
         setIsModalOpen(false);
-        toast('Feature coming soon!');
     }
 
     return (

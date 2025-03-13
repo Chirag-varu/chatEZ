@@ -1,3 +1,11 @@
+# 1.2.7 / 2025-03-13
+
+*Added get group api 
+*Added Create Group API - (backend to DB)
+*Added (DB modal added groupPic and image to groupMessage)
+*Added Create Group route - (in useGroupStore)
+*Fixed minor bugs - (better name convertions)
+
 # 1.2.6 / 2025-03-12
 
 *Improved sidebar option modal (UI)
