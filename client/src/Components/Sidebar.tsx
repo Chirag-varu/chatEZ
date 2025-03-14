@@ -134,6 +134,15 @@ const Sidebar = () => {
 
                         <div className="hidden lg:block text-left min-w-0">
                             <div className="font-medium truncate text-gray-800 dark:text-gray-200">{group.groupName}</div>
+                            <div className="text-sm text-zinc-400 dark:text-zinc-500">
+                                <div className='flex gap-1'>
+                                    {group.members.map((member: any, index: number) => (
+                                        <p key={index}>
+                                            {member.name}{index !== group.members.length - 1 ? ', ' : ''}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </button>
                 ))}

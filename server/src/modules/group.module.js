@@ -6,7 +6,7 @@ const groupSchema = new mongoose.Schema({
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     groupPic: {
       type: String,
-      default: "https://imgs.search.brave.com/06wGL96yGbHMQl_LtFtpO658KDoeZE5SqJliDkLVOGA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzI3LzE1Lzg5/LzM2MF9GXzEyNzE1/ODkzM19jRFpBNHN1/TVhzeDJuMExRMDNG/enBYNTBSN2ZCYVV4/Mi5qcGc",
+      default: "https://imgs.search.brave.com/7yvnOo5p1WkyZWXxyy781yIzQH35ygTpxopFYwd6Tf4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aWNvbnNkYi5jb20v/aWNvbnMvcHJldmll/dy9ncmF5L2dyb3Vw/LXh4bC5wbmc",
     },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "GroupMessage" }], 
   },

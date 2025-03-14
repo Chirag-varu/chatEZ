@@ -1,6 +1,13 @@
+$ 1.2.8 / 2025-04-14
+
+*Added member name in sidebar of group
+*Added made group visible to sidebar
+*Added get group api 
+*Fixed major bug - (made group format correct)
+*Fixed major bug - (wrog file has been fixed)
+
 # 1.2.7 / 2025-03-13
 
-*Added get group api 
 *Added Create Group API - (backend to DB)
 *Added (DB modal added groupPic and image to groupMessage)
 *Added Create Group route - (in useGroupStore)

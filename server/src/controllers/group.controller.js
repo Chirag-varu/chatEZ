@@ -25,13 +25,13 @@ export const getGroup = async (req, res) => {
       "members"
     );
 
-    const formattedGroups = groups.map((group) => ({
+    const formattedGroups = group.map((group) => ({
       ...group.toObject(),
       _id: group._id.toString(),
       admin: group.admin.toString(),
       members: group.members.map((member) => ({
-        ...member.toObject(),
-        _id: member._id.toString(),
+        _id: member.toString(),
+        name: member.name,
       })),
     }));
 

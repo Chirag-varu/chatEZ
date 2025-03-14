@@ -18,7 +18,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command";
+} from "@/Components/ui/command";
 
 export default function Component() {
   const [open, setOpen] = React.useState(false);

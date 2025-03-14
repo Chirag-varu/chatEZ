@@ -53,7 +53,7 @@ export const useGroupStore = create<GroupStore>((set) => ({
       console.log("====================================");
       console.log(res);
       console.log("====================================");
-      set({ groups: res.data });
+      set({ groups: res.data.formattedGroups });
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
