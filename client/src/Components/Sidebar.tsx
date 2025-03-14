@@ -40,9 +40,6 @@ const Sidebar = () => {
     };
 
     useEffect(() => {
-        console.log('====================================');
-        console.log(Array.isArray(groups));
-        console.log('====================================');
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
@@ -121,6 +118,7 @@ const Sidebar = () => {
                 {Array.isArray(groups) && groups.map((group: Group) => (
                     <button
                         key={group._id}
+                        onClick={() => setSelectedUser(group)} 
                         className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 dark:hover:bg-gray-700 transition-all rounded-lg ${selectedUser?._id === group._id ? "bg-base-300 ring-1 ring-base-300 dark:bg-gray-700 dark:ring-gray-500" : ""
                             }`}
                     >

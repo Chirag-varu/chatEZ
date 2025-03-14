@@ -16,6 +16,15 @@ interface Message {
   createdAt: string;
 }
 
+interface GroupMessage {
+  _id: string;
+  groupId: string;
+  senderId: string;
+  message: string;
+  image: string;
+  createdAt: string;
+}
+
 interface User {
   _id: string;
   name: string;
@@ -24,16 +33,32 @@ interface User {
   createdAt: string;
 }
 
+interface Group {
+  _id: string;
+  groupName: string;
+  Admin: string;
+  groupPic: string;
+  members: string[];
+  messages: string;
+  createdAt: string;
+}
+
 interface ChatStore {
   messages: Message[];
+  groupMessages: GroupMessage[];
   users: User[];
-  selectedUser: User | null;
+  selectedUser: User | Group | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
+  getGroupMessages: (groupId: string) => Promise<void>;
   sendMessage: (message: {
+    content: string;
+    image?: string | ArrayBuffer | null;
+  }) => Promise<void>;
+  sendGroupMessage: (message: {
     content: string;
     image?: string | ArrayBuffer | null;
   }) => Promise<void>;
@@ -41,7 +66,7 @@ interface ChatStore {
   deleteAllMessages: () => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
-  setSelectedUser: (selectedUser: User | null) => void;
+  setSelectedUser: (selectedUser: User | Group | null) => void;
 }
 
 const decryptMessage = (cipherText: string) => {
@@ -52,6 +77,7 @@ const decryptMessage = (cipherText: string) => {
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
+  groupMessages: [],
   users: [],
   selectedUser: null,
   isUsersLoading: false,
@@ -93,6 +119,34 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
+  getGroupMessages: async (groupId) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(
+        `group/message/getMessages/${groupId}`
+      );
+
+      if (!res || !res.data) {
+        throw new Error("API response is undefined");
+      }
+
+      const msg = res.data;
+
+      const decryptMessages = msg.map((obj: any) => {
+        return {
+          ...obj,
+          text: decryptMessage(obj.message),
+        };
+      });
+
+      set({ groupMessages: decryptMessages });
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isMessagesLoading: false });
+    }
+  },
+
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     if (!selectedUser) {
@@ -121,6 +175,37 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
+  sendGroupMessage: async (messageData) => {
+    const { selectedUser, groupMessages } = get();
+
+    if (!selectedUser) {
+      toast.error("No Group selected");
+      return;
+    }
+
+    try {
+      const res = await axiosInstance.post(
+        `group/message/send/${selectedUser._id}`,
+        messageData
+      );
+
+      if (!res || !res.data) {
+        console.error("Message sending failed: ", res);
+        throw new Error("No response from server");
+      }
+      const msg = res.data;
+
+      const decryptMessages = {
+        ...msg,
+        text: decryptMessage(msg.message),
+      };
+
+      set({ groupMessages: [...groupMessages, decryptMessages] });
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  },
+
   deleteMessage: async (messageId: string) => {
     const { messages } = get();
     try {
@@ -139,7 +224,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (!selectedUser) return false;
 
     try {
-      const res = await axiosInstance.delete(`/message/deleteAll/${selectedUser._id}`);
+      const res = await axiosInstance.delete(
+        `/message/deleteAll/${selectedUser._id}`
+      );
       toast.success(res.data.message);
       set({ messages: [] });
       return true;
@@ -167,7 +254,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         text: decryptMessage(newMessage.text),
       };
       toast.success(
-        `📩 New message from ${selectedUser.name}: "${decryptMessages.text}"`,
+        `📩 New message from ${
+          "name" in selectedUser ? selectedUser.name : selectedUser.groupName
+        }: "${decryptMessages.text}"`,
         {
           position: isMobile ? "top-center" : "bottom-right",
           duration: 4000, // Keeps it visible for 4 seconds

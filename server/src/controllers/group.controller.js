@@ -1,5 +1,14 @@
 import Group from "../modules/group.module.js";
 import groupMessage from "../modules/groupMessage.module.js";
+import cloudinary from "../lib/cloudinary.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
+import CryptoJS from "crypto-js";
+
+const SECRET_KEY = process.env.MESSAGE_SECRET_KEY;
+
+const encryptMessage = (text) => {
+  return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
+};
 
 export const createGroup = async (req, res) => {
   try {
@@ -35,13 +44,57 @@ export const getGroup = async (req, res) => {
       })),
     }));
 
-    console.log("====================================");
-    console.log(formattedGroups);
-    console.log("====================================");
-
     res.status(200).json({ formattedGroups });
   } catch (error) {
     console.log("Error In Get Group: " + error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const sendGroupMessage = async (req, res) => {
+  try {
+    const loggedInUser = req.user._id;
+    const receiverId = req.params.id;
+    const { content, image } = req.body;
+
+    let imageLink;
+    if (image) {
+      const link = await cloudinary.uploader.upload(image);
+      imageLink = link.secure_url;
+    }
+
+    const newMessage = new groupMessage({
+      groupId: receiverId,
+      senderId: loggedInUser,
+      message: encryptMessage(content),
+      image: imageLink,
+    });
+
+    await newMessage.save();
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
+    res.status(201).json(newMessage);
+  } catch (error) {
+    console.log("Error In Group of Send Message: " + error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getGroupMessage = async (req, res) => {
+  try {
+    // const loggedInUser = req.user._id;
+    const receiverId = req.params.id;
+    const messages = await groupMessage
+      .find({ groupId: receiverId })
+      .sort({ createdAt: 1 });
+
+    res.status(200).json(messages);
+  } catch (err) {
+    console.log("Error In Get Message: " + err);
     res.status(500).json({ message: "Internal server error" });
   }
 };

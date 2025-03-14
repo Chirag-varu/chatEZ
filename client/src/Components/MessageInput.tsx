@@ -9,7 +9,7 @@ const MessageInput = () => {
     const [text, setText] = useState("");
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { sendMessage } = useChatStore();
+    const { sendMessage, sendGroupMessage, selectedUser } = useChatStore();
 
     const handleImageChange = (e: any) => {
         const file = e.target.files[0];
@@ -35,17 +35,36 @@ const MessageInput = () => {
         if (!text.trim() && !imagePreview) return;
 
         try {
-            await sendMessage({
-                content: text.trim(),
-                image: imagePreview,
-            });
+            let response: any;
+
+            if (selectedUser !== null) {
+                if ("name" in selectedUser) {
+                    response = await sendMessage({
+                        content: text.trim(),
+                        image: imagePreview,
+                    });
+                } else {
+                    response = await sendGroupMessage({
+                        content: text.trim(),
+                        image: imagePreview,
+                    });
+                }
+            } else {
+                toast("Something went wrong!");
+                return;
+            }
+
+            console.log("handleSendMessage Response:", response); // Debugging step
+
+            // Assuming success if no error is thrown
 
             // Clear form
             setText("");
             setImagePreview(null);
             if (fileInputRef.current) fileInputRef.current.value = "";
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to send message:", error);
+            toast.error(error.message || "Failed to send message");
         }
     };
 

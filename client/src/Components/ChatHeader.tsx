@@ -32,13 +32,13 @@ const ChatHeader = () => {
                     {/* Avatar */}
                     <div className="avatar">
                         <div className="size-10 rounded-full relative">
-                            <img src={selectedUser?.profilePic || "/avatar.png"} alt={selectedUser?.name} />
+                            <img src={selectedUser !== null ? 'name' in selectedUser ? selectedUser.profilePic : selectedUser?.groupPic : "/avatar.png"} alt={selectedUser !== null ? 'name' in selectedUser ? selectedUser.name : selectedUser?.groupName : "Chat header"} />
                         </div>
                     </div>
 
                     {/* User info */}
                     <div>
-                        <h3 className="font-medium">{selectedUser?.name}</h3>
+                        <h3 className="font-medium">{selectedUser !== null ? 'name' in selectedUser ? selectedUser.name : selectedUser?.groupName : "user info"}</h3>
                         <p className="text-sm text-base-content/70 dark:text-white">
                             {selectedUser?._id && onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
                         </p>

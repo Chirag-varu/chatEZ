@@ -30,6 +30,7 @@ export default function Options() {
 
     const handleCreateGroup = () => {
         setIsModalOpen(false);
+        window.location.reload();
     }
 
     return (

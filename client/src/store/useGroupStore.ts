@@ -50,9 +50,6 @@ export const useGroupStore = create<GroupStore>((set) => ({
     set({ isGroupsLoading: true });
     try {
       const res = await axiosInstance.get(`/group/getGroups/${id}`);
-      console.log("====================================");
-      console.log(res);
-      console.log("====================================");
       set({ groups: res.data.formattedGroups });
     } catch (error: any) {
       toast.error(error.response.data.message);

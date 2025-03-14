@@ -1,10 +1,14 @@
-$ 1.2.8 / 2025-04-14
+# 1.2.8 / 2025-04-14
 
-*Added member name in sidebar of group
-*Added made group visible to sidebar
-*Added get group api 
+*Added chat feature in group - (without option)
+*Added send message api for group chat - (with encryption)
+*Added group added to chat container - (with api supported by DB)
+*Added member name in sidebar of group - (below the group name)
+*Updated code base - (removed other console log's)
+*Updated future tasks and action - (todo has been updated for development) 
 *Fixed major bug - (made group format correct)
 *Fixed major bug - (wrog file has been fixed)
+*Fixed minor bugs - (made code cleaner and better to read)
 
 # 1.2.7 / 2025-03-13
 
