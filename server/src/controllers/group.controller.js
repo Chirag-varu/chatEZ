@@ -98,3 +98,25 @@ export const getGroupMessage = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const deleteGroupMessage = async (req, res) => {
+  try {
+    const messageId = req.params.id;
+    await groupMessage.deleteOne({ _id: messageId });
+    res.status(200).send();
+  } catch (err) {
+    console.log("Error in Delete Group Message" + err);
+    res.status(500).json({ message: "internal server error" });
+  }
+};
+
+export const deleteAllGroupMessages = async (req, res) => {
+  try {
+    const receiverId = req.params.id;
+    await groupMessage.deleteMany({ groupId: receiverId });
+    res.status(200).json({ message: "All messages deleted" });
+  } catch (err) {
+    console.log("Error In Delete All Group Messages: " + err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

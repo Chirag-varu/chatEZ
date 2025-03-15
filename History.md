@@ -1,3 +1,8 @@
+# 1.2.9 / 2025-04-15
+
+*Added delete message in group chat - (made an api to communicate)
+*Added toast for validation - (using response and HotToast)
+
 # 1.2.8 / 2025-04-14
 
 *Added chat feature in group - (without option)

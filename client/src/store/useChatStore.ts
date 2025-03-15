@@ -39,6 +39,7 @@ interface Group {
   Admin: string;
   groupPic: string;
   members: string[];
+  text:string;
   messages: string;
   createdAt: string;
 }
@@ -63,6 +64,7 @@ interface ChatStore {
     image?: string | ArrayBuffer | null;
   }) => Promise<void>;
   deleteMessage: (messageId: string) => Promise<boolean>;
+  deleteGroupMessage: (messageId: string) => Promise<boolean>;
   deleteAllMessages: () => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
@@ -212,6 +214,19 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       await axiosInstance.delete(`/message/delete/${messageId}`);
       const updatedMessages = messages.filter((msg) => msg._id !== messageId);
       set({ messages: updatedMessages });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
+  deleteGroupMessage: async (messageId: string) => {
+    const { groupMessages } = get();
+    try {
+      await axiosInstance.delete(`group/message/delete/${messageId}`);
+      const updatedMessages = groupMessages.filter((msg) => msg._id !== messageId);
+      set({ groupMessages: updatedMessages });
       return true;
     } catch (error: any) {
       toast.error(error.response.data.message);

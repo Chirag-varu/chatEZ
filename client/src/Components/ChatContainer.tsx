@@ -8,6 +8,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 import { Card, CardContent, CardFooter } from "@/Components/ui/card";
 import Options2 from "./Options2";
+import Options4 from "./Options4";
 import { MoreVertical } from "lucide-react";
 
 const ChatContainer = () => {
@@ -241,9 +242,9 @@ const ChatContainer = () => {
                         {messages?.find((m) => m._id === selectedMessage) && (
                             <Options2 message={messages.find((m) => m._id === selectedMessage)!} />
                         )}
-                        {/* {groupMessages?.find((m) => m._id === selectedMessage) && (
-                            <Options4 message={groupMessages.find((m) => m._id === selectedMessage)!} />
-                        )} */}
+                        {groupMessages?.find((m) => m._id === selectedMessage) && (
+                            <Options4 groupMessages={groupMessages.find((m) => m._id === selectedMessage)!} />
+                        )}
                     </div>
                 )}
 
