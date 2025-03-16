@@ -79,9 +79,41 @@ Follow these steps to set up ChatEZ on your local machine:
 ## **Project Structure Overview 📂**
 
 ChatEZ follows a structured directory layout to keep the project organized and maintainable:
-
-chirag-varu-chatez/ ├── client/ # Frontend (React + TypeScript) │ ├── src/ │ │ ├── Components/ # Reusable UI components │ │ ├── pages/ # Application pages │ │ ├── store/ # State management (using Zustand) │ │ ├── hooks/ # Custom hooks │ │ ├── lib/ # Utility functions & API handlers │ │ └── ui/ # UI elements (buttons, modals, etc., using shadcn) │ ├── public/ # Static assets (ChatEZ logo) │ ├── index.html # Main HTML file │ ├── package.json # Dependencies and scripts │ ├── .gitignore # Ignored files │ ├── tailwind.config.js # Tailwind CSS configuration │ ├── vite.config.ts # Vite configuration │ └── tsconfig.json # TypeScript configuration │ ├── server/ # Backend (Node.js + Express.js) │ ├── src/ │ │ ├── controllers/ # Request handling logic │ │ ├── routes/ # API routes │ │ ├── modules/ # Business logic │ │ ├── middleware/ # Authentication & authorization │ │ ├── lib/ # Utility files (Cloudinary, DB connection, etc.) │ │ └── app.js # Entry point for the backend │ ├── package.json # Dependencies and scripts │ ├── .gitignore # Ignored files │ ├── README.md # Project documentation ├── LICENSE # License details ├── History.md # Version information ├── package.json # Root dependencies and scripts └── run.sh # Deployment script
-
+```
+chirag-varu-chatez/
+├── client/          # Frontend (React + TypeScript)
+│   ├── src/
+│   │   ├── Components/  # Reusable UI components
+│   │   ├── pages/       # Application pages
+│   │   ├── store/       # State management (using zustand)
+│   │   ├── hooks/       # Custom hooks
+│   │   ├── lib/         # Utility functions & API handlers
+│   │   └── ui/          # UI elements (buttons, modals, etc. using shadcn)
+│   ├── public/         # Static assets (chatEZ logo)
+│   ├── index.html      # Main HTML file
+│   ├── package.json    # Dependencies and scripts
+|   ├── .gitignore      # Ignored files
+│   ├── tailwind.config.js  # Tailwind CSS configuration
+│   ├── vite.config.ts  # Vite configuration
+│   └── tsconfig.json   # TypeScript configuration
+│
+├── server/         # Backend (Node.js + Express.js)
+│   ├── src/
+│   │   ├── controllers/  # Request handling logic
+│   │   ├── routes/       # API routes
+│   │   ├── modules/      # Business logic
+│   │   ├── middleware/   # Authentication & authorization
+│   │   ├── lib/          # Utility files (Cloudinary, DB connection, etc.)
+│   │   └── app.js        # Entry point for the backend
+│   ├── package.json  # Dependencies and scripts
+│   ├── .gitignore    # Ignored files
+│
+├── README.md      # Project documentation
+├── LICENSE        # License details
+├── History.md     # version information
+├── package.json   # Root dependencies and scripts
+└── run.sh         # Deployment script
+```
 This structure helps developers quickly navigate the project and understand where to make modifications.
 
 ---
