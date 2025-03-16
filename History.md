@@ -1,9 +1,14 @@
-# 1.2.9 / 2025-04-15
+# 1.2.10 / 2025-03-16
+
+*Updated Readme file - (added features and made clear)
+*Fixed deployment bug - (critical bug - added text type in GroupMesaage interface)
+
+# 1.2.9 / 2025-03-15
 
 *Added delete message in group chat - (made an api to communicate)
 *Added toast for validation - (using response and HotToast)
 
-# 1.2.8 / 2025-04-14
+# 1.2.8 / 2025-03-14
 
 *Added chat feature in group - (without option)
 *Added send message api for group chat - (with encryption)
