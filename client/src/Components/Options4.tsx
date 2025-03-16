@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/Comp
 import toast from "react-hot-toast";
 import { useChatStore } from "@/store/useChatStore";
 
-interface GroupMessage {
+interface GroupMessages {
     _id: string;
     groupId: string;
     senderId: string;
@@ -15,7 +15,7 @@ interface GroupMessage {
     createdAt: string;
   }
 
-export default function MessageOptions({ groupMessages }: { groupMessages: GroupMessage }) {
+export default function MessageOptions({ groupMessages }: { groupMessages: GroupMessages }) {
   const { deleteGroupMessage } = useChatStore();
   const [copying, setCopying] = useState(false);
 

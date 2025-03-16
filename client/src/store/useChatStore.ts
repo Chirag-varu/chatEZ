@@ -20,6 +20,7 @@ interface GroupMessage {
   _id: string;
   groupId: string;
   senderId: string;
+  text: string;
   message: string;
   image: string;
   createdAt: string;
@@ -39,7 +40,6 @@ interface Group {
   Admin: string;
   groupPic: string;
   members: string[];
-  text:string;
   messages: string;
   createdAt: string;
 }
