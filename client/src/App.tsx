@@ -92,13 +92,10 @@ function App() {
 export default App;
 
 // TODO:
+// add feature to leave group - E
+// add feature to remove user from group - E
 // add latest message should be visible below the user name in sidebar - M
 // add reply feature - M
-// add option-4 in group chat - E
-// add delete message one at time in group chat - E
-// add clear chat feature in group chat - M
 // fix and update - user profile pic should be show in group chat when that user messaged - H
-// add feature to remove user from group - E
-// add feature to leave group - E
 // add web rtc for voice and video call feature - H
 

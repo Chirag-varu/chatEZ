@@ -66,6 +66,8 @@ interface ChatStore {
   deleteMessage: (messageId: string) => Promise<boolean>;
   deleteGroupMessage: (messageId: string) => Promise<boolean>;
   deleteAllMessages: () => Promise<boolean>;
+  deleteAllGroupMessages: () => Promise<boolean>;
+  deleteGroup: () => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | Group | null) => void;
@@ -224,8 +226,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   deleteGroupMessage: async (messageId: string) => {
     const { groupMessages } = get();
     try {
-      await axiosInstance.delete(`group/message/delete/${messageId}`);
-      const updatedMessages = groupMessages.filter((msg) => msg._id !== messageId);
+      await axiosInstance.delete(`/group/message/delete/${messageId}`);
+      const updatedMessages = groupMessages.filter(
+        (msg) => msg._id !== messageId
+      );
       set({ groupMessages: updatedMessages });
       return true;
     } catch (error: any) {
@@ -244,6 +248,41 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       );
       toast.success(res.data.message);
       set({ messages: [] });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
+  deleteAllGroupMessages: async () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return false;
+
+    try {
+      const res = await axiosInstance.delete(
+        `/group/message/deleteAllGroupMessages/${selectedUser._id}`
+      );
+      toast.success(res.data.message);
+      set({ groupMessages: [] });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
+  deleteGroup: async () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return false;
+
+    try {
+      const res = await axiosInstance.delete(
+        `/group/deleteGroup/${selectedUser._id}`
+      );
+      toast.success(res.data.message);
+      set({ groupMessages: [] });
+      set({ selectedUser: null });
       return true;
     } catch (error: any) {
       toast.error(error.response.data.message);

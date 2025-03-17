@@ -1,6 +1,6 @@
 {
-    "name": "chatEZ",
-    "version": "1.1.0",
+    "name": "chatez",
+    "version": "2.0.0",
     "description": "ChatEZ is a full-stack real-time chat application designed to provide seamless and efficient communication. It features a responsive and modern user interface, and advanced functionality to enhance the user experience.",
     "main": "index.js",
     "scripts": {

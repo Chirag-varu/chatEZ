@@ -1,3 +1,11 @@
+# 1.2.11 / 2025-03-17
+
+*Added cron to increase app uptime - (an request go for app after avery 14 min)
+*Added Delete Group Feature - (deleting group will also delete all the chats)
+*Added Clear Chat feature in Group Chat - (using an Rest-full API)
+*Updated chatEZ version to 2.0.0 - (both frontend & backend with api versioning and packege.json)
+*Fixed minor bug - (made nameing better in backend and put handle-feature in search bar)
+
 # 1.2.10 / 2025-03-16
 
 *Updated Readme file - (added features and made clear)

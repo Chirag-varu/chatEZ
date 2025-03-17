@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MoreVertical, Search, Trash, X } from "lucide-react";
+import { MoreVertical, Search, Trash, X, MessageSquareOff } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { useChatStore } from "../store/useChatStore";
@@ -10,20 +10,38 @@ import toast from "react-hot-toast";
 
 export default function Options3({ setSearchBar }: { setSearchBar: (value: boolean) => void }) {
     const [open, setOpen] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { setSelectedUser, deleteAllMessages } = useChatStore();
+    const [dialogType, setDialogType] = useState<"clearChat" | "deleteGroup" | null>(null);
+    const { setSelectedUser, deleteAllMessages, selectedUser, deleteAllGroupMessages, deleteGroup } = useChatStore();
 
-    const handleDeleteAllMessages = async () => {
+    const handleConfirmAction = async () => {
         try {
-            const res = await deleteAllMessages();
-            if (!res) {
-                toast.error("Server TimeOut: try after some time");
+            let res = false;
+            if (dialogType === "clearChat") {
+                res = selectedUser !== null
+                    ? "name" in selectedUser
+                        ? await deleteAllMessages()
+                        : await deleteAllGroupMessages()
+                    : false;
+            } else if (dialogType === "deleteGroup") {
+                res = await deleteGroup();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
-        } catch (error) {
-            toast.error("Failed to clear chat");
+
+            if (!res) {
+                toast.error("Server TimeOut: try again later.");
+            }
+        } catch (error: any) {
+            toast.error("Action failed.");
         } finally {
-            setIsDialogOpen(false);
+            setDialogType(null);
         }
+    };
+
+    const handleFeature = () => {
+        toast("This feature is not available yet!");
+        setSearchBar(false); // make it true to view search bar
     }
 
     return (
@@ -39,7 +57,7 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                         <Button
                             variant="ghost"
                             className="w-full justify-start dark:hover:bg-gray-800"
-                            onClick={() => setSearchBar(true)}
+                            onClick={handleFeature}
                         >
                             <Search className="mr-2 h-4 w-4" />
                             <span>Search Messages</span>
@@ -55,33 +73,45 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                         <Button
                             variant="destructive"
                             className="w-full justify-start dark:hover:bg-gray-800"
-                            onClick={() => setIsDialogOpen(true)}
+                            onClick={() => setDialogType("clearChat")}
                         >
-                            <Trash className="mr-2 h-4 w-4" />
+                            <MessageSquareOff className="mr-2 h-4 w-4" />
                             <span>Clear Chat</span>
                         </Button>
+
+                        {selectedUser && "groupName" in selectedUser && (
+                            <Button
+                                variant="destructive"
+                                className="w-full justify-start dark:hover:bg-gray-800"
+                                onClick={() => setDialogType("deleteGroup")}
+                            >
+                                <Trash className="mr-2 h-4 w-4" />
+                                <span>Delete Group</span>
+                            </Button>
+                        )}
                     </div>
                 </PopoverContent>
             </Popover>
 
             {/* Confirmation Modal */}
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
+            <Dialog open={dialogType !== null} onOpenChange={() => setDialogType(null)}>
                 <DialogContent aria-describedby={undefined}>
                     <DialogHeader>
-                        <DialogTitle>Are you sure?</DialogTitle>
+                        <DialogTitle>
+                            {dialogType === "clearChat" ? "Clear Chat" : "Delete Group"}
+                        </DialogTitle>
                     </DialogHeader>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                        This will permanently delete all messages in this chat. This action cannot be undone.
+                        {dialogType === "clearChat"
+                            ? "This will permanently delete all messages in this chat. This action cannot be undone."
+                            : "This will permanently delete the group and all its messages. This action cannot be undone."}
                     </p>
                     <DialogFooter>
-                        <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                        <Button variant="outline" onClick={() => setDialogType(null)}>
                             Cancel
                         </Button>
-                        <Button
-                            variant="destructive"
-                            onClick={handleDeleteAllMessages}
-                        >
-                            Yes, Clear Chat
+                        <Button variant="destructive" onClick={handleConfirmAction}>
+                            {dialogType === "clearChat" ? "Yes, Clear Chat" : "Yes, Delete Group"}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

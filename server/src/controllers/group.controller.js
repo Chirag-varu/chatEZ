@@ -3,6 +3,7 @@ import groupMessage from "../modules/groupMessage.module.js";
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 import CryptoJS from "crypto-js";
+import { group } from "console";
 
 const SECRET_KEY = process.env.MESSAGE_SECRET_KEY;
 
@@ -54,7 +55,7 @@ export const getGroup = async (req, res) => {
 export const sendGroupMessage = async (req, res) => {
   try {
     const loggedInUser = req.user._id;
-    const receiverId = req.params.id;
+    const groupId = req.params.id;
     const { content, image } = req.body;
 
     let imageLink;
@@ -64,7 +65,7 @@ export const sendGroupMessage = async (req, res) => {
     }
 
     const newMessage = new groupMessage({
-      groupId: receiverId,
+      groupId: groupId,
       senderId: loggedInUser,
       message: encryptMessage(content),
       image: imageLink,
@@ -72,7 +73,7 @@ export const sendGroupMessage = async (req, res) => {
 
     await newMessage.save();
 
-    const receiverSocketId = getReceiverSocketId(receiverId);
+    const receiverSocketId = getReceiverSocketId(groupId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
@@ -87,9 +88,9 @@ export const sendGroupMessage = async (req, res) => {
 export const getGroupMessage = async (req, res) => {
   try {
     // const loggedInUser = req.user._id;
-    const receiverId = req.params.id;
+    const groupId = req.params.id;
     const messages = await groupMessage
-      .find({ groupId: receiverId })
+      .find({ groupId: groupId })
       .sort({ createdAt: 1 });
 
     res.status(200).json(messages);
@@ -112,11 +113,23 @@ export const deleteGroupMessage = async (req, res) => {
 
 export const deleteAllGroupMessages = async (req, res) => {
   try {
-    const receiverId = req.params.id;
-    await groupMessage.deleteMany({ groupId: receiverId });
+    const groupId = req.params.id;
+    await groupMessage.deleteMany({ groupId: groupId });
     res.status(200).json({ message: "All messages deleted" });
   } catch (err) {
     console.log("Error In Delete All Group Messages: " + err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const deleteGroup = async (req, res) => {
+  try {
+    const groupId = req.params.id;
+    await groupMessage.deleteMany({ groupId: groupId });
+    await Group.deleteOne({ _id: groupId });
+    res.status(200).json({ message: "Group has been deleted"});
+  } catch (err) {
+    console.log("Error In Delete Group : " + err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}

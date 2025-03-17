@@ -10,6 +10,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { app, server } from "./lib/socket.js";
 import path from "path";
+import job from "./lib/cron.js";
 
 dotenv.config();
 // const app = express();
@@ -26,6 +27,7 @@ app.get("/healthcheck", (req, res) => {
 });
 
 // app.use(limiter);
+job.start();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
@@ -36,10 +38,10 @@ app.use(
   })
 );
 
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/message", messageRoutes);
-app.use("/api/v1/group", groupRoute);
+app.use("/api/v2/auth", authRoute);
+app.use("/api/v2/user", userRoute);
+app.use("/api/v2/message", messageRoutes);
+app.use("/api/v2/group", groupRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
