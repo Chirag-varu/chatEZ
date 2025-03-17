@@ -42,9 +42,10 @@ function App() {
     "/admin-login",
     "/joiningRoom",
   ];
-  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const { authAdmin, checkAuthAdmin } = useUserStore();
-  console.log("online users:", onlineUsers);
+  // const { onlineUsers } = useAuthStore();
+  // console.log("online users:", onlineUsers);
 
   useEffect(() => {
     checkAuth();

@@ -4,6 +4,7 @@
 *Added Delete Group Feature - (deleting group will also delete all the chats)
 *Added Clear Chat feature in Group Chat - (using an Rest-full API)
 *Updated chatEZ version to 2.0.0 - (both frontend & backend with api versioning and packege.json)
+*Updated chunk size Increase limit to 1000 KB - (for onrender)
 *Fixed minor bug - (made nameing better in backend and put handle-feature in search bar)
 
 # 1.2.10 / 2025-03-16
