@@ -1,4 +1,9 @@
-# 1.2.11 / 2025-03-17
+# 2.0.1 / 2025-03-18
+
+*Updated sidebar search bar 
+*Fixed sidebar cltr + k not visible in dark mode
+
+# 2.0.0 / 2025-03-17
 
 *Added cron to increase app uptime - (an request go for app after avery 14 min)
 *Added Delete Group Feature - (deleting group will also delete all the chats)

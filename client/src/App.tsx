@@ -93,8 +93,13 @@ function App() {
 export default App;
 
 // TODO:
+// add group search feature - EM
 // add feature to leave group - E
 // add feature to remove user from group - E
+// add ai in chat like meta - (sherians was video on it) - M
+// add pdf upoad - M 
+// add pdf video - M
+// add pdf gif - M
 // add latest message should be visible below the user name in sidebar - M
 // add reply feature - M
 // fix and update - user profile pic should be show in group chat when that user messaged - H

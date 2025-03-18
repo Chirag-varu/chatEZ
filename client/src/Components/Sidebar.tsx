@@ -79,19 +79,18 @@ const Sidebar = () => {
                         placeholder="Search name..."
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className="w-full border border-gray-300 px-4 py-2 pl-10 rounded-lg focus:border-blue-500 bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 
-        focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300
-        text-sm sm:text-base"
-                    />
+                        className="w-full border border-gray-300 px-4 py-2 pl-10 rounded-lg focus:border-blue-300 bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 
+        focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-300
+        text-sm sm:text-base focus:outline-none"/>
 
                     {/* Search Icon */}
                     <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 text-base sm:text-lg" />
 
                     {/* Shortcut Keys (Hidden on very small screens) */}
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 items-center gap-1 hidden md:flex ">
-                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px]">Ctrl</kbd>
+                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px] dark:text-white">Ctrl</kbd>
                         <span>+</span>
-                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px]">K</kbd>
+                        <kbd className="kbd bg-muted kbd-sm border rounded text-[12px] dark:text-white">K</kbd>
                     </div>
                 </div>
 
@@ -118,7 +117,7 @@ const Sidebar = () => {
                 {Array.isArray(groups) && groups.map((group: Group) => (
                     <button
                         key={group._id}
-                        onClick={() => setSelectedUser(group)} 
+                        onClick={() => setSelectedUser(group)}
                         className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 dark:hover:bg-gray-700 transition-all rounded-lg ${selectedUser?._id === group._id ? "bg-base-300 ring-1 ring-base-300 dark:bg-gray-700 dark:ring-gray-500" : ""
                             }`}
                     >
