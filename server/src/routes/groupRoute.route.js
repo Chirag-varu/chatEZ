@@ -6,7 +6,8 @@ import {
   getGroupMessage,
   deleteGroupMessage,
   deleteAllGroupMessages,
-  deleteGroup
+  deleteGroup,
+  leaveGroup
 } from "../controllers/group.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 
@@ -17,6 +18,8 @@ route.post("/createGroup", authenticate, createGroup);
 route.get("/getGroups/:id", authenticate, getGroup);
 
 route.delete("/deleteGroup/:id", authenticate, deleteGroup);
+
+route.patch("/leaveGroup/:id", authenticate, leaveGroup);
 
 route.post("/message/send/:id", authenticate, sendGroupMessage);
 

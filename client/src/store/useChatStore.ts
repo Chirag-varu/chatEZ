@@ -68,6 +68,7 @@ interface ChatStore {
   deleteAllMessages: () => Promise<boolean>;
   deleteAllGroupMessages: () => Promise<boolean>;
   deleteGroup: () => Promise<boolean>;
+  leaveGroup: () => Promise<boolean>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | Group | null) => void;
@@ -282,6 +283,24 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       );
       toast.success(res.data.message);
       set({ groupMessages: [] });
+      set({ selectedUser: null });
+      return true;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      return false;
+    }
+  },
+
+  leaveGroup: async () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return false;
+
+    try {
+      const res = await axiosInstance.patch(
+        `/group/leaveGroup/${selectedUser._id}`
+      );
+
+      toast.success(res.data.message);
       set({ selectedUser: null });
       return true;
     } catch (error: any) {

@@ -127,9 +127,30 @@ export const deleteGroup = async (req, res) => {
     const groupId = req.params.id;
     await groupMessage.deleteMany({ groupId: groupId });
     await Group.deleteOne({ _id: groupId });
-    res.status(200).json({ message: "Group has been deleted"});
+    res.status(200).json({ message: "Group has been deleted" });
   } catch (err) {
     console.log("Error In Delete Group : " + err);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
+export const leaveGroup = async (req, res) => {
+  try {
+    const groupId = req.params.id;
+    let newMembers = await Group.findOne({ _id: groupId }, "members");
+
+    if (!newMembers) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    await Group.updateOne(
+      { _id: groupId },
+      { $pull: { members: req.user._id } }
+    );
+
+    res.status(200).json({ message: "Group has been leaved" });
+  } catch (err) {
+    console.log("Error In Leave Group : " + err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

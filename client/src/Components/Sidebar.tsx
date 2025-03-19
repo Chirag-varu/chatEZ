@@ -58,6 +58,11 @@ const Sidebar = () => {
         return isOnline && isNameMatch;
     });
 
+    const filterGroup = groups.filter((group) => {
+        const isNameMatch = group.groupName.toLowerCase().includes(searchTerm.toLowerCase());
+        return isNameMatch;
+    });
+
     if (isUsersLoading) return <SidebarSkeleton />;
 
     return (
@@ -114,7 +119,7 @@ const Sidebar = () => {
 
 
             <div className="overflow-y-auto w-full py-3">
-                {Array.isArray(groups) && groups.map((group: Group) => (
+                {Array.isArray(groups) && filterGroup.map((group: Group) => (
                     <button
                         key={group._id}
                         onClick={() => setSelectedUser(group)}

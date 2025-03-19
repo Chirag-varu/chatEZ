@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MoreVertical, Search, Trash, X, MessageSquareOff } from "lucide-react";
+import { MoreVertical, Search, Trash, X, MessageSquareOff, DoorOpen } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { useChatStore } from "../store/useChatStore";
@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 export default function Options3({ setSearchBar }: { setSearchBar: (value: boolean) => void }) {
     const [open, setOpen] = useState(false);
     const [dialogType, setDialogType] = useState<"clearChat" | "deleteGroup" | null>(null);
-    const { setSelectedUser, deleteAllMessages, selectedUser, deleteAllGroupMessages, deleteGroup } = useChatStore();
+    const { setSelectedUser, deleteAllMessages, selectedUser, deleteAllGroupMessages, deleteGroup, leaveGroup } = useChatStore();
 
     const handleConfirmAction = async () => {
         try {
@@ -39,6 +39,23 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
         }
     };
 
+    const handleLeaveGroup = async () => {
+        try {
+            const res = await leaveGroup();
+
+            if (!res) {
+                toast.error("Semothing went wrong, try again after some time");
+            } else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        } catch (error: any) {
+            console.log("Error in leave group from (Option-3): " + error);
+            toast.error("Semothing went wrong, try again after some time");
+        }
+    }
+
     const handleFeature = () => {
         toast("This feature is not available yet!");
         setSearchBar(false); // make it true to view search bar
@@ -52,42 +69,63 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                         <MoreVertical className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-90" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-56 dark:bg-gray-900" align="end">
-                    <div className="grid gap-4">
+                <PopoverContent className="w-56 dark:bg-gray-900 p-2 rounded-lg shadow-lg" align="end">
+                    <div className="grid gap-2">
+                        {/* Search Messages */}
                         <Button
                             variant="ghost"
-                            className="w-full justify-start dark:hover:bg-gray-800"
+                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-lg"
                             onClick={handleFeature}
                         >
-                            <Search className="mr-2 h-4 w-4" />
+                            <Search className="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400" />
                             <span>Search Messages</span>
                         </Button>
+
+                        {/* Close Chat */}
                         <Button
                             variant="ghost"
-                            className="w-full justify-start dark:hover:bg-gray-800"
+                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-lg"
                             onClick={() => setSelectedUser(null)}
                         >
-                            <X className="mr-2 h-4 w-4" />
+                            <X className="mr-2 h-4 w-4 text-red-500" />
                             <span>Close Chat</span>
                         </Button>
+
+                        {/* Clear Chat */}
                         <Button
                             variant="destructive"
-                            className="w-full justify-start dark:hover:bg-gray-800"
+                            className="w-full justify-start bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg"
                             onClick={() => setDialogType("clearChat")}
                         >
                             <MessageSquareOff className="mr-2 h-4 w-4" />
                             <span>Clear Chat</span>
                         </Button>
 
-                        {selectedUser && "groupName" in selectedUser && (
-                            <Button
-                                variant="destructive"
-                                className="w-full justify-start dark:hover:bg-gray-800"
-                                onClick={() => setDialogType("deleteGroup")}
-                            >
-                                <Trash className="mr-2 h-4 w-4" />
-                                <span>Delete Group</span>
-                            </Button>
+                        {/* Group Actions */}
+                        {selectedUser && ("groupName" in selectedUser) && (
+                            <>
+                                <div className="border-t border-gray-300 dark:border-gray-700 my-2" />
+
+                                {/* Leave Group */}
+                                <Button
+                                    variant="ghost"
+                                    className="w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-lg"
+                                    onClick={handleLeaveGroup}
+                                >
+                                    <DoorOpen className="mr-2 h-4 w-4 text-blue-500" />
+                                    <span>Leave Group</span>
+                                </Button>
+
+                                {/* Delete Group */}
+                                <Button
+                                    variant="destructive"
+                                    className="w-full justify-start bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg"
+                                    onClick={() => setDialogType("deleteGroup")}
+                                >
+                                    <Trash className="mr-2 h-4 w-4" />
+                                    <span>Delete Group</span>
+                                </Button>
+                            </>
                         )}
                     </div>
                 </PopoverContent>

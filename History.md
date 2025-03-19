@@ -1,3 +1,10 @@
+# 2.0.2 / 2025-03-19
+
+*Added Leave Group feature - (with restfull api)
+*Updated mongoDB group schema - (removed groupMessage ID field)
+*Updated Profile or group info option menu - (re-structured and group only option added)
+*Updated Search bar for searching group name too - (in chat container sidebar)
+
 # 2.0.1 / 2025-03-18
 
 *Updated sidebar search bar 
