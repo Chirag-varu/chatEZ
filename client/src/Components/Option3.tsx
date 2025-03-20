@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 export default function Options3({ setSearchBar }: { setSearchBar: (value: boolean) => void }) {
     const [open, setOpen] = useState(false);
-    const [dialogType, setDialogType] = useState<"clearChat" | "deleteGroup" | null>(null);
+    const [dialogType, setDialogType] = useState<"clearChat" | "deleteGroup" | "leaveGroup" | null>(null);
     const { setSelectedUser, deleteAllMessages, selectedUser, deleteAllGroupMessages, deleteGroup, leaveGroup } = useChatStore();
 
     const handleConfirmAction = async () => {
@@ -27,6 +27,11 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
+            } else if (dialogType === "leaveGroup") {
+                res = await leaveGroup();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             }
 
             if (!res) {
@@ -39,27 +44,10 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
         }
     };
 
-    const handleLeaveGroup = async () => {
-        try {
-            const res = await leaveGroup();
-
-            if (!res) {
-                toast.error("Semothing went wrong, try again after some time");
-            } else {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
-            }
-        } catch (error: any) {
-            console.log("Error in leave group from (Option-3): " + error);
-            toast.error("Semothing went wrong, try again after some time");
-        }
-    }
-
     const handleFeature = () => {
         toast("This feature is not available yet!");
         setSearchBar(false); // make it true to view search bar
-    }
+    };
 
     return (
         <>
@@ -110,7 +98,7 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                                 <Button
                                     variant="ghost"
                                     className="w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-lg"
-                                    onClick={handleLeaveGroup}
+                                    onClick={() => setDialogType("leaveGroup")}
                                 >
                                     <DoorOpen className="mr-2 h-4 w-4 text-blue-500" />
                                     <span>Leave Group</span>
@@ -136,20 +124,22 @@ export default function Options3({ setSearchBar }: { setSearchBar: (value: boole
                 <DialogContent aria-describedby={undefined}>
                     <DialogHeader>
                         <DialogTitle>
-                            {dialogType === "clearChat" ? "Clear Chat" : "Delete Group"}
+                            {dialogType === "clearChat" ? "Clear Chat" : dialogType === "deleteGroup" ? "Delete Group" : "Leave Group"}
                         </DialogTitle>
                     </DialogHeader>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                         {dialogType === "clearChat"
                             ? "This will permanently delete all messages in this chat. This action cannot be undone."
-                            : "This will permanently delete the group and all its messages. This action cannot be undone."}
+                            : dialogType === "deleteGroup"
+                                ? "This will permanently delete the group and all its messages. This action cannot be undone."
+                                : "Are you sure you want to leave this group? You will no longer have access to its messages."}
                     </p>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setDialogType(null)}>
                             Cancel
                         </Button>
                         <Button variant="destructive" onClick={handleConfirmAction}>
-                            {dialogType === "clearChat" ? "Yes, Clear Chat" : "Yes, Delete Group"}
+                            {dialogType === "clearChat" ? "Yes, Clear Chat" : dialogType === "deleteGroup" ? "Yes, Delete Group" : "Yes, Leave Group"}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

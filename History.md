@@ -1,3 +1,7 @@
+# 2.1.0 / 2025-03-20
+
+*Added leave group dialog modal - (to confirm)
+
 # 2.0.2 / 2025-03-19
 
 *Added Leave Group feature - (with restfull api)
