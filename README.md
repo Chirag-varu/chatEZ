@@ -31,6 +31,43 @@ chatEZ - Next-Gen Real-Time Chat App.
 
 ---
 
+## 🛠 Tech Stack  
+
+### **Frontend (chatez)**  
+- **Vite** (Fast build tool)  
+- **React 18 + TypeScript**  
+- **Tailwind CSS** (With DaisyUI, Tailwind Merge, and Animations)  
+- **Radix UI** (Avatar, Dialog, Dropdown, Tooltip, etc.)  
+- **Framer Motion** (Animations)  
+- **React Router** (Client-side navigation)  
+- **React Select** (Custom dropdowns)  
+- **Zustand** (State management)  
+- **Axios** (HTTP requests)  
+- **Sonner / React Hot Toast** (Notifications)  
+- **Lucide React** (Icons)  
+
+### **Backend (server)**  
+- **Node.js & Express.js** (Backend framework)  
+- **MongoDB & Mongoose** (Database & ORM)  
+- **Cloudinary** (Media storage)  
+- **Socket.io** (Real-time communication)  
+- **JSON Web Token (JWT)** (Authentication)  
+- **Bcrypt.js** (Password hashing)  
+- **Express Rate Limit** (Security & throttling)  
+- **Crypto.js** (Encryption)  
+- **Cron** (Scheduled tasks and app uptime)  
+- **Nodemailer** (Email service)  
+
+### **Tooling & Dev Dependencies**  
+- **TypeScript** (Static typing)  
+- **ESLint & Prettier** (Linting & code formatting)  
+- **PostCSS & Autoprefixer** (CSS optimization)  
+- **Vite Plugins** (React, SWC)  
+- **DaisyUI** (UI Components)  
+- **Nodemon** (Auto-restart for backend development)  
+
+---
+
 ## **Installation** 🛠️
 
 Follow these steps to set up ChatEZ on your local machine:
