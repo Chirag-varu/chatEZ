@@ -1,3 +1,8 @@
+# 2.1.1 / 2025-03-21
+
+*Updated readme file - (added upcomming feature section)
+*Fixed modarate bug - (removed useState for checking admin) 
+
 # 2.1.0 / 2025-03-20
 
 *Added leave group dialog modal - (to confirm)

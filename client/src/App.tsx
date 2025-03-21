@@ -43,13 +43,14 @@ function App() {
     "/joiningRoom",
   ];
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { authAdmin, checkAuthAdmin } = useUserStore();
+  const { authAdmin } = useUserStore();
+  // const { checkAuthAdmin } = useUserStore();
   // const { onlineUsers } = useAuthStore();
   // console.log("online users:", onlineUsers);
 
   useEffect(() => {
     checkAuth();
-    checkAuthAdmin();
+    // checkAuthAdmin();
   }, [checkAuth]);
 
   const shouldHaveNavbar = showNavbarPaths.some((path) =>

@@ -2,27 +2,32 @@
 
 ChatEZ is a modern, full-stack real-time chat application designed to deliver seamless and efficient communication. With a responsive, visually appealing user interface, secure user authentication, and instant real-time message updates, ChatEZ ensures a smooth and engaging user experience for both personal and professional use.
 
+chatEZ - Next-Gen Real-Time Chat App.
+
 ---
 
 ## **Features** 🚀
 
 - **📱 Responsive UI** : Optimized for all screen sizes and devices.
 - **⚡ Real-Time Messaging** : Enjoy instant updates and uninterrupted communication.
-- **User Authentication** : Secure sign-up and login functionality.
+- **✅ User Authentication** : Secure sign-up and login functionality.
 - **📈 Scalable Architecture** : Built for high performance and future enhancements.
 - **🔒 Secure Authorization** : Multi-factor authentication & secure login.
 - **🛡️ Encrypted Messages** : End-to-end encryption for ultimate privacy.
 - **👥 Group Chats** : Create and manage group conversations.
 - **📷 Image Sharing** : Share moments instantly.
-- **🎥 Video Upload** : Share videos with your contacts.
 - **🔍 User and Group Search** : Find friends and Group easily.
 - **🟢 User Tracking** : See who's online in real-time.
 - **👤 Profile Updates** : Customize your profile.
+- **🛠️ Admin Panel (CRM)** : To monitor and manage users.
+
+## **upcomming features (soon)** 🛠️
+
 - **📞 Voice Calls** : Crystal-clear voice calls with friends.
 - **📹 Video Calls** : Seamless video calls without interruption.
 - **📄 PDF Support** : Share documents seamlessly.
 - **🎭 GIF Support** : Express yourself with GIFs.
-- **🛠️ Admin Panel (CRM)** : To monitor and manage users.
+- **🎥 Video Upload** : Share videos with your contacts.
 
 ---
 
