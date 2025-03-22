@@ -94,6 +94,7 @@ function App() {
 export default App;
 
 // TODO (maybe):
+// update sidebar skeleton - E
 // add feature to remove user from group - E
 // add ai in chat like meta - (sherians was video on it) - M
 // add pdf upoad - M 
