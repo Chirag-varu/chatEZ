@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chatez-dev-60880-authRole",
+      "UnauthRoleArn": "arn:aws:iam::289970482897:role/amplify-chatez-dev-60880-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::289970482897:role/amplify-chatez-dev-60880-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-chatez-dev-60880-deployment",
+      "UnauthRoleName": "amplify-chatez-dev-60880-unauthRole",
+      "StackName": "amplify-chatez-dev-60880",
+      "StackId": "arn:aws:cloudformation:us-east-1:289970482897:stack/amplify-chatez-dev-60880/a4a11450-0cb1-11f0-9b58-0eb6554517e1",
+      "AmplifyAppId": "d36glmi8lwtej2"
+    }
+  }
+}
