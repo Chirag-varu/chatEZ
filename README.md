@@ -21,6 +21,8 @@ chatEZ - Next-Gen Real-Time Chat App.
 - **👤 Profile Updates** : Customize your profile.
 - **🛠️ Admin Panel (CRM)** : To monitor and manage users.
 
+---
+
 ## **upcomming features (soon)** 🛠️
 
 - **📞 Voice Calls** : Crystal-clear voice calls with friends.
