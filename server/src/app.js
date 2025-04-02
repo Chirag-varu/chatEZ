@@ -33,7 +33,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://chatez-fn9w.onrender.com"],
+    origin: ["http://localhost:5173", "https://chatez-fn9w.onrender.com", "https://main.d11aka4621zqa2.amplifyapp.com"],
     credentials: true,
   })
 );
