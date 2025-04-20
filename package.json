@@ -1,19 +1,36 @@
 {
     "name": "chatez",
-    "version": "2.0.0",
+    "version": "2.1.2",
     "description": "ChatEZ is a full-stack real-time chat application designed to provide seamless and efficient communication. It features a responsive and modern user interface, and advanced functionality to enhance the user experience.",
     "main": "index.js",
     "scripts": {
         "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
         "start": "npm run start --prefix server"
     },
-    "keywords": [],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Chirag-varu/chatEZ.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Chirag-varu/chatEZ/issues"
+    },
+    "homepage": "https://github.com/Chirag-varu/chatEZ",
+    "Live link": "https://chatez-fn9w.onrender.com/",
+    "keywords": [
+        "chatEZ",
+        "chat",
+        "chat application",
+        "chat app",
+        "chatEZ app",
+        "chatEZ chat",
+        "chatEZ chat app",
+        "chatEZ chat application"
+    ],
     "author": "Chirag Varu",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@types/node": "^22.13.1"
     },
     "dependencies": {
-        "@zegocloud/zego-uikit-prebuilt": "^2.14.1"
     }
 }

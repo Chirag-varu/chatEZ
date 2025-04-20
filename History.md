@@ -1,3 +1,9 @@
+# 2.1.2 / 2025-03-20
+
+*Added Unit Test for Backend (Server Healthcare)
+*Added git and keywords to app package.json
+*Fixed Version counting across app
+
 # 2.1.1 / 2025-03-21
 
 *Updated readme file - (added upcomming feature section)

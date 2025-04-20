@@ -1,10 +1,12 @@
 {
   "name": "server",
-  "version": "2.0.0",
+  "version": "2.1.2",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "keywords": [],
   "author": "Chirag Varu",
@@ -25,9 +27,12 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.0",
     "nodemailer": "^6.9.16",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "vitest": "^3.1.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@types/express": "^5.0.1",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.1.0"
   }
 }
