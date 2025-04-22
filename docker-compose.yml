@@ -1,0 +1,22 @@
+services:
+  # Backend service (server)
+  backend:
+    build:
+      context: ./server  
+    ports:
+      - "5000:5000"  
+    volumes:
+      - ./server:/app  
+    environment:
+      - NODE_ENV=development  
+
+  # Frontend service (client)
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development 
+    depends_on:
+      - backend 
