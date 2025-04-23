@@ -4,9 +4,9 @@ services:
     build:
       context: ./server  
     ports:
-      - "5000:5000"  
-    volumes:
-      - ./server:/app  
+      - "5000:5000"
+    env_file:
+      - ./server/.env
     environment:
       - NODE_ENV=development  
 
@@ -16,6 +16,8 @@ services:
       context: ./client
     ports:
       - "5173:5173"
+    env_file:
+      - ./client/.env
     environment:
       - NODE_ENV=development 
     depends_on:
