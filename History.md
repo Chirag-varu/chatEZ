@@ -1,3 +1,11 @@
+# 2.2.0 / 2025-04-23
+
+*Added Dockerfile to client and server
+*Added Docker-Compose to cliemnt and server
+*Added Docker-Compose to root for managment
+*Added .env.example for developers and contributers
+*Added readme file in server for developers and contributers
+
 # 2.1.2 / 2025-03-20
 
 *Added Unit Test for Backend (Server Healthcare)

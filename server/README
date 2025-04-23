@@ -1,0 +1,38 @@
+
+---
+
+# Server README
+
+## Overview
+
+This repository contains the backend server for chatEZ. it follows MVC model.
+
+## Installation
+
+### Prerequisites
+
+- make sure you have node, mongoDB and docker installed 
+- run npm install or docker-compose up --build
+
+- you also have .env.example where you have to fill values
+
+## API Endpoints
+
+- you can find api endpoints under the routes folder for different use-cases and role
+
+## Technologies Used
+
+- **Backend Framework:** [Node js, Express.js,]
+- **Database:** [MongoDB Atlas]
+- **Authentication:** [JWT, crypto-js]
+- **Other Technologies:** [you can find the other tools and technologies in package.json under dependencies]
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`).
+5. Push to the branch (`git push origin feature/your-feature`).
+6. Create a new Pull Request.
+---

@@ -47,9 +47,10 @@ public/assets/
 *.xcuserstate
 
 # Miscellaneous
-*.env.*
+*.env
 *.pid
 *.seed
+*.pem
 
 # Backend-specific files
 package-lock.json
@@ -76,4 +77,5 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
+**.pem
 #amplify-do-not-edit-end

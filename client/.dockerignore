@@ -4,5 +4,6 @@ dist
 build
 LICENSE
 README.md
+.env
 *.log
 *.tsbuildinfo

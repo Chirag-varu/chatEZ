@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -8,10 +8,10 @@
     "test": "vitest",
     "test:watch": "vitest --watch"
   },
-  "keywords": [],
+  "keywords": ["ChatEZ-Server", "ChatEZ", "ChatEZ-Backend", "chatez-server", "chatez", "chatez-backend"],
   "author": "Chirag Varu",
   "type": "module",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "dependencies": {
     "@jaybhanushali01/file-json-processor": "^1.0.1",
